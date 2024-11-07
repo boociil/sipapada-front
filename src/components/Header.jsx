@@ -8,7 +8,7 @@ export default function Header() {
       <div className="flex flex-row items-center justify-between p-3 md:p-1">
         <a
           href="/"
-          className="flex text-xl text-white font-medium mb-0 md:mb-0 w-full justify-center md:justify-start"
+          className="flex text-xl md:text-5xl lg:text-8x text-white font-medium mb-0 md:mb-0 w-full justify-center md:justify-start"
         >
           SIPAPADA1306
         </a>
