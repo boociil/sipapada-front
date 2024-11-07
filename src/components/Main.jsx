@@ -7,6 +7,33 @@ export default function Main() {
   const [isVisible, setIsVisible] = useState(false);
   const [isVisible1, setIsVisible1] = useState(false);
 
+  
+
+  const sendData = ( loginData ) => {
+    return new Promise((resolve,reject) => {
+        const requestOptions = {
+            method: 'POST', // Metode HTTP
+            headers: {
+                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+            },
+            body: JSON.stringify ({ 
+                "username" : loginData.username,
+                "password" : loginData.pass,
+             }) 
+        };
+        
+        fetch(backendUrl + 'Login', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            if(data.msg === "Success"){
+                resolve(data);
+            }else{
+                reject("Password atau Username tidak benar");
+            }
+        });
+    })
+  }
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -50,10 +77,10 @@ export default function Main() {
             className="border border-gray-400 h-fit pr-2 pl-2 py-1 mt-2 rounded-md text-gray-800 font-semibold hover:border-gray-700 bg-white"
           />{" "}
           <div
-            className="inline-flex items-center px-4 py-1 mt-2 ml-2 font-medium text-white transition duration-500 ease-in-out transform bg-transparent border border-[#2A2A2A] rounded-lg bg-[#2A2A2A]"
+            className="inline-flex items-center px-4 py-1 mt-2 ml-2 font-medium text-white transition duration-500 ease-in-out transform bg-transparent border border-[#2A2A2A] rounded-lg bg-black"
 
           >
-            <span className="justify-center">Cari</span>
+            <span className="justify-center ">Cari</span>
           </div>
         </div>
       </div>
