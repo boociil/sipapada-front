@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import bpsLogo from '../assets/bps.png'
+import InputForm from './InputForm'
+import BabDiv from "./BabDiv";
 
 export default function Main() {
 
@@ -12,6 +14,12 @@ export default function Main() {
     met_pengumpulan_data: "",
     sektor_kegiatan: "",
     rekomendasi_kegiatan: "",
+    id_rekomendasi: "",
+    instansi: "",
+    alamat: "",
+    telepon: "",
+    email: "",
+    faksimile: "",
   });
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -30,7 +38,7 @@ export default function Main() {
 
   return (
     <>
-        <section className="all-body">
+        <section className="all-body mb-80">
             <section className="form md:mx-auto mx-4 max-w-4xl p-4 mt-24 rounded-lg shadow-lg bg-gray-300 ">
                 <div className="keterangan flex justify-between">
                     <div className="bps-logo text-xs mb-4 italic font-semibold flex items-center">
@@ -74,14 +82,14 @@ export default function Main() {
                         <input 
                             type="text" 
                             className="w-full px-2 h-8 rounded-md mt-1" 
-                            placeholder="Judul" 
+                            placeholder="Judul Kegiatan" 
                             name="judul_kegiatan" 
                             id="judul_kegiatan" 
                             value={formData.judul_kegiatan}
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="pengumpulan_data mb-2 justify-between flex">
+                    <div className="pengumpulan_data mb-2 justify-between flex border-b-2 pb-2">
                         <label htmlFor="pengumpulan_data" className="pr-1 pt-2 font-semibold">Metode Pengumpulan Data</label>
                         <input 
                             type="text" 
@@ -110,18 +118,18 @@ export default function Main() {
                             <div>- 4</div>
                         </div>
                     </div>
-                    <div className="sektor_kegiatan mb-2 justify-between flex">
+                    <div className="sektor_kegiatan mb-2 justify-between flex border-b-2 pb-2">
                         <label htmlFor="sektor_kegiatan" className="pr-1 pt-2 font-semibold">Sektor Kegiatan</label>
                         <input 
                             type="text" 
-                            className="px-2 h-8  w-16 rounded-md mt-1 text-center" 
+                            className="px-2 h-8 w-16 rounded-md mt-1 text-center" 
                             name="sektor_kegiatan" 
                             id="sektor_kegiatan" 
                             value={formData.sektor_kegiatan}
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="keterangan_metode_pengumpulan_data text-xs w-fit">
+                    <div className="keterangan_metode_pengumpulan_data text-xs w-fit lg:flex lg:justify-between">
                         <div>
                             <div className="flex justify-between">
                                 <div>Pertanian dan Perikanan</div>
@@ -172,29 +180,61 @@ export default function Main() {
                                 <div>- 12</div>
                             </div>
                         </div>
-                        <div>
+                        <div className="lg:ml-20">
                             <div className="flex justify-between">
-                                <div>Kompilasi Produk Administrasi</div>
+                                <div>Ketenagakerjaan</div>
                                 <div>- 13</div>
                             </div>
                             <div className="flex justify-between">
-                                <div>Cara Lain Sesuai Perkembangan TI</div>
+                                <div>Neraca Nasional</div>
                                 <div>- 14</div>
+                            </div>
+                            <div className="flex justify-between">
+                                <div>Indikator Ekonomi Bulanan</div>
+                                <div>- 15</div>
+                            </div>
+                            <div className="flex justify-between">
+                                <div>Produktivitas</div>
+                                <div>- 16</div>
+                            </div>
+                            <div className="flex justify-between">
+                                <div>Harga dan Paritas Daya Beli</div>
+                                <div>- 17</div>
+                            </div>
+                            <div className="flex justify-between">
+                                <div>Sektor Publik, Perpajakan, dan Regulasi Pasar</div>
+                                <div>- 18</div>
+                            </div>
+                            <div className="flex justify-between">
+                                <div>Perwilayahan dan Perkotaan</div>
+                                <div>- 19</div>
+                            </div>
+                            <div className="flex justify-between">
+                                <div>Ilmu Pengetahuan dan Hak Paten</div>
+                                <div>- 20</div>
+                            </div>
+                            <div className="flex justify-between">
+                                <div>Perlindungan Sosial dan Kesejahteraan</div>
+                                <div>- 21</div>
+                            </div>
+                            <div className="flex justify-between">
+                                <div>Transportasi</div>
+                                <div>- 22</div>
                             </div>
                         </div>
                     </div>
-                    <div className="rekomendasi_kegiatan mb-2 justify-between flex">
-                        <label htmlFor="rekomendasi_kegiatan" className="pr-1 pt-2 font-semibold">Sektor Kegiatan</label>
+                    <div className="mb-2 justify-between flex border-b-2 pb-2">
+                        <label htmlFor="rekomendasi_kegiatan" className="pr-1 pt-2 font-semibold ">Jika Survei Statistik Sektoral, Apakah mendapatkan rekomendasi dari BPS?</label>
                         <input 
                             type="text" 
-                            className="px-2 h-8  w-16 rounded-md mt-1 text-center" 
+                            className="px-2 h-8 w-16 rounded-md mt-4 md:mt-0 text-center" 
                             name="rekomendasi_kegiatan" 
                             id="rekomendasi_kegiatan" 
                             value={formData.rekomendasi_kegiatan}
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="keterangan_metode_pengumpulan_data text-xs w-fit">
+                    <div className="text-xs w-fit">
                         <div className="flex justify-between">
                             <div>Ya</div>
                             <div>- 1</div>
@@ -205,9 +245,69 @@ export default function Main() {
                         </div>
                         <div className="flex justify-between">
                             <div>Jika "YA", identitas rekomendasi :  </div>
-                            <input type="text" className="rounded-md ml-2 h-6" />
+                            <input 
+                                type="text" 
+                                className="rounded-md ml-2 h-6" 
+                                name="id_rekomendasi"
+                                value={formData.id_rekomendasi}
+                                onChange={handleChange}
+                            />
                         </div>
                     </div>
+                    <InputForm 
+                        text={"Sektor Kegiatan"} 
+                        name="sektor_kegiatan"
+                        value={formData.rekomendasi_kegiatan} 
+                        change={handleChange} 
+                        print_info
+                        info={["Ya","Tidak","gatau","ntahlah"]}
+                    />
+
+                    {/* BAB 1 */}
+                    {/* PENYELENGGARA */}
+
+                    <BabDiv text={"I. PENYELENGGARA"} />
+
+                    <InputForm 
+                        text={"1.1 Instansi Penyelenggara"}
+                        name="instansi"
+                        value={formData.instansi}
+                        change={handleChange}
+                    />
+
+                    <InputForm 
+                        text={"1.2 Alamat Instansi Penyelenggara"}
+                        name="alamat"
+                        value={formData.alamat}
+                        change={handleChange}
+                    />
+                    <InputForm 
+                        text={"Telepon Penyelenggara"}
+                        name="telepon"
+                        value={formData.telepon}
+                        change={handleChange}
+                    />
+                    <InputForm 
+                        text={"Email Penyelenggara"}
+                        name="email"
+                        value={formData.email}
+                        change={handleChange}
+                    />
+                    <InputForm 
+                        text={"Faksimile Penyelenggara"}
+                        name="faksimile"
+                        value={formData.faksimile}
+                        change={handleChange}
+                    />
+
+                    <BabDiv text={"II. PENANGGUNG JAWAB"} />
+
+                    <BabDiv text={"III. PERENCANAAN DAN PERSIAPAN"} />
+
+                    <BabDiv text={"IV. DESAIN KEGIATAN"} />
+
+                    <BabDiv text={"V. DESAIN SAMPEL"} />
+
                 </form>
             </section>
         </section>
