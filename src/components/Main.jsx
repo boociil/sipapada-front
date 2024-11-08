@@ -9,7 +9,7 @@ export default function Main() {
   const [isVisible, setIsVisible] = useState(false);
   const [isVisible1, setIsVisible1] = useState(false);
   const [isVisible2, setIsVisible2] = useState(false);
-  const [allOPD, setAllOPD] = useState({})
+  const [allOPD, setAllOPD] = useState([])
   const navigate = useNavigate();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -107,8 +107,8 @@ export default function Main() {
           </div>
 
           {
-            allOPD.map((opd) => (
-              <div key={opd.id} className="p-2 border-b border-gray-300">
+            allOPD.map((opd,i) => (
+              <div key={i} className="p-2 border-b border-gray-300 ">
                 <h2 className="text-lg font-semibold text-black">{opd.nama}</h2>
                 <p className="text-gray-600">{opd.alamat}</p>
               </div>

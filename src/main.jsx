@@ -7,6 +7,7 @@ import Main from './components/Main.jsx'
 import Footer from './components/Footer.jsx'
 import Header from './components/Header.jsx'
 import Login from './components/Login.jsx'
+import Form from './components/Form.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -14,7 +15,7 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route index element={
           <>
-            <Header />
+            <Header type="fixed"/>
             <Main />
             <Footer />
           </>
@@ -23,6 +24,12 @@ createRoot(document.getElementById('root')).render(
           <>
             <Header />
             <Login />
+          </>
+        }></Route>
+        <Route path="/Form/:id" element={
+          <>
+            <Header txt="text-black" type="fixed" />
+            <Form />
           </>
         }></Route>
       </Routes>
