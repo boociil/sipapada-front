@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import bpsLogo from '../assets/bps.png'
 import InputForm from './InputForm'
 import BabDiv from "./BabDiv";
+import SubTitleForm from "./SubTitleForm"
 
 export default function Main() {
 
@@ -20,6 +21,31 @@ export default function Main() {
     telepon: "",
     email: "",
     faksimile: "",
+    eselon_1 : "",
+    eselon_2 : "",
+    nama_pj: "",
+    jabatan_pj: "",
+    alamat_pj: "",
+    telepon_pj:"",
+    email_pj:"",
+    faksimile_pj:"",
+    // BAB IV
+    kegiatan_dilakukan:"",
+    jika_berulang:"",
+    tipe_pengumpulan_data:"",
+    cakupan_wilayah_data:"",
+    metode_pengumpulan_data:"",
+    sarana_pengumpulan_data:"",
+    unit_pengumpulan_data:"",
+    // BAB V
+    rancangan_sampel:"",
+    metode_pemilihan_sampel_terakir:"",
+    metode_sampel:"",
+    kerangka_sampel_terakir:"",
+    fraksi_sampel_keseluruhan:"",
+    sampling_error:"",
+    unit_sampel: "",
+    unit_observasi:"",
   });
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -286,27 +312,213 @@ export default function Main() {
                         name="telepon"
                         value={formData.telepon}
                         change={handleChange}
+                        font_is_small={true}
                     />
                     <InputForm 
                         text={"Email Penyelenggara"}
                         name="email"
                         value={formData.email}
                         change={handleChange}
+                        font_is_small={true}
                     />
                     <InputForm 
                         text={"Faksimile Penyelenggara"}
                         name="faksimile"
                         value={formData.faksimile}
                         change={handleChange}
+                        font_is_small={true}
                     />
 
                     <BabDiv text={"II. PENANGGUNG JAWAB"} />
+
+                  
+                    <InputForm 
+                        text={"2.1 Unit Eselon Penanggung Jawab"}
+                        name="faksimile"
+                        not_input_title={true}
+                    />
+                    
+                    <InputForm 
+                        text={"Eselon 1"}
+                        name="eselon_1"
+                        value={formData.eselon_1}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+
+                    <InputForm 
+                        text={"Eselon 2"}
+                        name="eselon_2"
+                        value={formData.eselon_2}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+
+                    <InputForm 
+                        text={"2.2 Penanggung Jawab Teknis (Setingkat Eselon 3)"}
+                        name="faksimile"
+                        not_input_title={true}
+                    />
+
+                    <InputForm 
+                        text={"Nama"}
+                        name="nama_pj"
+                        value={formData.nama_pj}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+
+                    <InputForm 
+                        text={"Jabatan"}
+                        name="jabatan_pj"
+                        value={formData.jabatan_pj}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+
+                    <InputForm 
+                        text={"Alamat"}
+                        name="alamat_pj"
+                        value={formData.alamat_pj}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+                    <InputForm 
+                        text={"Telepon"}
+                        name="telepon_pj"
+                        value={formData.telepon_pj}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+                    <InputForm 
+                        text={"Email"}
+                        name="email_pj"
+                        value={formData.email_pj}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+                    <InputForm 
+                        text={"Faksimile"}
+                        name="faksimile_pj"
+                        value={formData.faksimile_pj}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
 
                     <BabDiv text={"III. PERENCANAAN DAN PERSIAPAN"} />
 
                     <BabDiv text={"IV. DESAIN KEGIATAN"} />
 
+                    <InputForm 
+                        text={"4.1 Kegiatan ini dilakukan "} 
+                        name="kegiatan_dilakukan"
+                        value={formData.kegiatan_dilakukan} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Hanya Sekali","Berulang"]}
+                    />
+                    
+                    <InputForm 
+                        text={`4.2 Jika "berulang" (R.4.1. berkode 2), Frekuensi Penyelenggaraan `} 
+                        name="jika_berulang"
+                        value={formData.jika_berulang} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Harian","Mingguan","Bulanan","Triwulanan",
+                            "Empat Bulanan", "Semesteran","Tahunan","> Dua Tahunan"
+                        ]}
+                    />
+
+                    <InputForm 
+                        text={"4.3 Tipe Pengumpulan Data "} 
+                        name="tipe_pengumpulan_data"
+                        value={formData.tipe_pengumpulan_data} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Longitudinal Panel", "Longitudinal Cross Sectional", "Cross Seciotnal"]}
+                    />
+                    
+                    <InputForm 
+                        text={"4.4 Cakupan Wilayah Pengumpulan Data"} 
+                        name="cakupan_wilayah_data"
+                        value={formData.cakupan_wilayah_data} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Seluruh WIlayah Indonesia", "Sebagian Wilayah Indonesia"]}
+                    />
+
+                    <InputForm 
+                        text={`4.5 Jika "sebagian wilayah indonesia" (R.4.4. berkode 2), WIlayah kegiatan :`}
+                        name="faksimile"
+                        not_input_title={true}
+                    />
+
+                    <InputForm 
+                        text={"4.6 Metode Pengumpulan Data"} 
+                        name="metode_pengumpulan_data"
+                        value={formData.metode_pengumpulan_data} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Wawancara","Mengisi Kuesioner Sendiri (swacacah)","Pengmatan (Observasi)","Pengumpulan Data Sekunder","Lainnya (Sebutkan)"]}
+                    />
+                    
+                    <InputForm 
+                        text={"4.7 Sarana Pengumpulan Data"} 
+                        name="sarana_pengumpulan_data"
+                        value={formData.sarana_pengumpulan_data} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Paper-assisted Personal Interviewing (PAPI)","Computer-assisted Personal INterviewing (CAPI)", "Computer-assited Telephones Interviewing (CATI)","Computer Aided Web Interviewing (CAWI)","Mail", "Lainnya (Sebutkan)"]}
+                    />
+
+                    <InputForm 
+                        text={"4.8 Unit Pengumpulan Data"} 
+                        name="unit_pengumpulan_data"
+                        value={formData.unit_pengumpulan_data} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Individu","Rumah Tangga","Usaha/Perusahaan","Lainnya (sebutkan) "]}
+                    />
+
+
                     <BabDiv text={"V. DESAIN SAMPEL"} />
+                    
+                    <InputForm 
+                        text={"5.1 Jenis Rancangan Sampel"} 
+                        name="rancangan_sampel"
+                        value={formData.rancangan_sampel} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Single Stage/Phase","Multi Stage/Phase"]}
+                    />
+
+                    <InputForm 
+                        text={"5.2 Metode Pemilihan Sampel Tahap Terakhir"} 
+                        name="metode_pemilihan_sampel_terakir"
+                        value={formData.metode_pemilihan_sampel_terakir} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Probabilitas","Non Probabilitas"]}
+                    />
+
+                    <InputForm 
+                        text={`5.3 Jika "Sampel Probabilitas" (R.5.2. berkode 1), Metode yang digunakan :`}
+                        name="metode_sampel"
+                        value={formData.metode_sampel} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Simple Random Sampling","Systematic Random Sampling","Stratified Random Sampling","Cluster Sampling","Multi Stage Sampling"]}
+                    />
+                    <InputForm 
+                        text={`Jika "Sampel Non Probabilitas" (R.5.2. berkode 2), Metode yang digunakan :`}
+                        name="faksimile"
+                        not_input_title={true}
+                        print_info={true}
+                        info={["Quota Sampling","Accidental Sampling","Purposive Sampling","Snowball Sampling","Saturation Sampling"]}
+                    />
+
+                    <BabDiv text={"VI. PENGOLAHAN DAN ANALISIS"} />
+                    <BabDiv text={"VI. DISEMINASI HASIL"} />
 
                 </form>
             </section>
