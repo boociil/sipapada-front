@@ -8,6 +8,7 @@ import Footer from './components/Footer.jsx'
 import Header from './components/Header.jsx'
 import Login from './components/Login.jsx'
 import Form from './components/Form.jsx'
+import AdminPage from "./components/AdminPage.jsx"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -30,6 +31,12 @@ createRoot(document.getElementById('root')).render(
           <>
             <Header txt="text-black" type="fixed" />
             <Form />
+          </>
+        }></Route>
+        <Route path="/Admin/" element={
+          <>
+            <Header type="fixed" />
+            <AdminPage />
           </>
         }></Route>
       </Routes>

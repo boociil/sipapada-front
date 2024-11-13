@@ -9,7 +9,7 @@ export default function Main() {
   const [isVisible, setIsVisible] = useState(false);
   const [isVisible1, setIsVisible1] = useState(false);
   const [isVisible2, setIsVisible2] = useState(false);
-  const [allOPD, setAllOPD] = useState([])
+  const [allOPD, setAllOPD] = useState([]);
   const navigate = useNavigate();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -114,7 +114,7 @@ export default function Main() {
               </div>
             ))
           }
-
+  
         </div>
       </div>
     </section>
