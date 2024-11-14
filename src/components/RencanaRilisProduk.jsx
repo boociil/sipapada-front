@@ -41,7 +41,7 @@ export default function InputForm(props) {
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr className={`${props.tercetak == 1 ? '' : 'opacity-50 pointer-events-none'}`}>
                     <td  className="border-2 border-black font-semibold">1</td>
                     <td className="border-2 border-black text-left px-2">
                         Tercetak
@@ -50,7 +50,7 @@ export default function InputForm(props) {
                         <input type="date" />
                     </td>
                 </tr>
-                <tr>
+                <tr className={`${props.digital == 1 ? '' : 'opacity-50 pointer-events-none'}`} >
                     <td  className="border-2 border-black font-semibold">2</td>
                     <td className="border-2 border-black text-left px-2">
                         Digital
@@ -59,7 +59,7 @@ export default function InputForm(props) {
                         <input type="date" />
                     </td>
                 </tr>
-                <tr>
+                <tr className={`${props.data_mikro == 1 ? '' : 'opacity-50 pointer-events-none'}`} >
                     <td  className="border-2 border-black font-semibold">3</td>
                     <td className="border-2 border-black text-left px-2">
                         Data Mikro

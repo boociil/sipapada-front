@@ -808,7 +808,7 @@ export default function Main() {
                     />
 
                     <div className="flex justify-center">
-                        < RencanaRilisProduk />
+                        < RencanaRilisProduk digital={formData.digital} tercetak={formData.tercetak} data_mikro={formData.data_mikro} />
                     </div>
 
                 </form>

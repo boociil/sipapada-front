@@ -65,7 +65,7 @@ export default function InputForm(props) {
                             onChange={handleChange}
                         />
                     </td>
-                    <td className="border-2 border-black">s.d</td>
+                    <td className="border-2 border-black px-2">s.d</td>
                     <td className="border-2 border-black">
                         <input 
                             type="date" 
