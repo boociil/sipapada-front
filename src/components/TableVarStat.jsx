@@ -113,7 +113,7 @@ export default function InputForm(props) {
                     <div className="bg-white font-semibold mt-4 w-fit py-1 px-6 rounded-md hover:shadow-lg transition-all cursor-pointer duration-200 active:scale-90 active:bg-gray-600" onClick={addRow}>
                         Tambah Kolom
                     </div>
-                    <div className={`bg-red-500 text-white font-semibold ml-8 mt-4 w-fit py-1 px-6 rounded-md hover:shadow-lg transition-all cursor-pointer duration-200 active:scale-90 active:bg-gray-600 ${rowAdd > 0 ? 'opacity-100' : 'opacity-0'}`} onClick={decRow}>
+                    <div className={`bg-red-500 text-white font-semibold ml-8 mt-4 w-fit py-1 px-6 rounded-md hover:shadow-lg transition-all cursor-pointer duration-200 active:scale-90 active:bg-gray-600 ${rowAdd > 0 ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={decRow}>
                         Hapus Kolom
                     </div>
                 </div>
