@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import bpsLogo from '../assets/bps.png'
-import InputForm from './InputForm'
+import bpsLogo from '../assets/bps.png';
+import InputForm from './InputForm';
 import BabDiv from "./BabDiv";
-import SubTitleForm from "./SubTitleForm"
+import TableJadwalKegiatan from "./TabelJadwalKegiatan";
 
 export default function Main() {
 
@@ -29,6 +29,10 @@ export default function Main() {
     telepon_pj:"",
     email_pj:"",
     faksimile_pj:"",
+    // BAB III
+    latbel_kegiatan:"",
+    tujuan_kegiatan:"",
+    variabel_yang_dikumpulkan:"",
     // BAB IV
     kegiatan_dilakukan:"",
     jika_berulang:"",
@@ -46,6 +50,25 @@ export default function Main() {
     sampling_error:"",
     unit_sampel: "",
     unit_observasi:"",
+    // BAB VI
+    pilot_survei: "",
+    metode_pemeriksaan_kualitas_pengumpulan_data: "",
+    penyesuaian_non_respon: "",
+    petugas_pengumpulan_data:"",
+    persyaratan_pendidikan_terendah_petugas:"",
+        // PETUGAS
+        jumlah_supervisor:"",
+        jumlah_pengumpul_data:"",
+    pelatihan_petugas:"",
+    // BAB VII
+    penyuntingan: "",
+    penyandian: "",
+    data_entry:"",
+    penyahihan:"",
+    metode_analisis:"",
+    unit_analisis:"",
+    tingkat_penyajian_hasil_analisis:"",
+    
   });
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -407,6 +430,31 @@ export default function Main() {
 
                     <BabDiv text={"III. PERENCANAAN DAN PERSIAPAN"} />
 
+                    <InputForm 
+                        text={"3.1 Latar Belakang Kegiatan"} 
+                        name="latbel_kegiatan"
+                        value={formData.latbel_kegiatan} 
+                        change={handleChange} 
+                        big_input={true}
+                    />
+                    <InputForm 
+                        text={"3.2 Tujuan Kegiatan"} 
+                        name="tujuan_kegiatan"
+                        value={formData.tujuan_kegiatan} 
+                        change={handleChange} 
+                        big_input={true}
+                    />
+                    <InputForm 
+                        text={"3.3 Rencana Jadwal Kegiatan"} 
+                        not_input_title={true}
+                    />
+
+                    < TableJadwalKegiatan />
+                    <InputForm 
+                        text={"3.4 Variabel Karakteristik yang Dikumpulkan"} 
+                        not_input_title={true}
+                    />
+
                     <BabDiv text={"IV. DESAIN KEGIATAN"} />
 
                     <InputForm 
@@ -509,6 +557,7 @@ export default function Main() {
                         print_info={true}
                         info={["Simple Random Sampling","Systematic Random Sampling","Stratified Random Sampling","Cluster Sampling","Multi Stage Sampling"]}
                     />
+
                     <InputForm 
                         text={`Jika "Sampel Non Probabilitas" (R.5.2. berkode 2), Metode yang digunakan :`}
                         name="faksimile"
@@ -517,8 +566,203 @@ export default function Main() {
                         info={["Quota Sampling","Accidental Sampling","Purposive Sampling","Snowball Sampling","Saturation Sampling"]}
                     />
 
-                    <BabDiv text={"VI. PENGOLAHAN DAN ANALISIS"} />
-                    <BabDiv text={"VI. DISEMINASI HASIL"} />
+                    <InputForm 
+                        text={`5.4 Kerangka Sampel Tahap Terakhir`}
+                        name="kerangka_sampel_terakir"
+                        value={formData.kerangka_sampel_terakir} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["List Frame","Area Frame"]}
+                    />
+                    
+                    <InputForm 
+                        text={`5.5 Fraksi Sampel Keseluruhan`}
+                        name="fraksi_sampel_keseluruhan"
+                        value={formData.fraksi_sampel_keseluruhan} 
+                        change={handleChange} 
+                    />
+
+                    <InputForm 
+                        text={`5.6 Nilai Perkiraan Sampling Error Variabel Utama`}
+                        name="sampling_error"
+                        value={formData.sampling_error} 
+                        change={handleChange} 
+                    />
+                    
+                    <InputForm 
+                        text={`5.7 Unit Sampel`}
+                        name="unit_sampel"
+                        value={formData.unit_sampel} 
+                        change={handleChange} 
+                    />
+                    
+                    <InputForm 
+                        text={`5.8 Unit Observasi`}
+                        name="unit_observasi"
+                        value={formData.unit_observasi} 
+                        change={handleChange} 
+                    />
+
+                    <BabDiv text={"VI. PENGUMPULAN DATA"} />
+
+                    <InputForm 
+                        text={`6.1 Apakah Melakukan Uji Coba (Pilot Survey)?`}
+                        name="pilot_survei"
+                        value={formData.pilot_survei} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Ya","Tidak"]}
+                    />
+
+                    <InputForm 
+                        text={`6.2 Metode Pemeriksaan Kualitas Pengumpulan Data`}
+                        name="metode_pemeriksaan_kualitas_pengumpulan_data"
+                        value={formData.metode_pemeriksaan_kualitas_pengumpulan_data} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Kunjungan Kembali (Revisit)","Supervisi","Task Force","Lainnya (Sebutkan)"]}
+                    />
+                    
+                    <InputForm 
+                        text={`6.3 Apakah Melakukan Penyesuaian Nonrespon?`}
+                        name="penyesuaian_non_respon"
+                        value={formData.penyesuaian_non_respon} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Ya","Tidak"]}
+                    />
+
+                    <InputForm 
+                        text={`6.4 Petugas Pengumpulan Data`}
+                        name="petugas_pengumpulan_data"
+                        value={formData.petugas_pengumpulan_data} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Staf Instansi Penyelenggara","Mitra/Tenaga Kontrak","Staf Instansi Penyelenggara dan Mitra/Tenaga Kontrak"]}
+                    />
+
+
+                    <InputForm 
+                        text={`6.5 Persyaratan Pendidikan Terendah Petugas Pengumpulan Data`}
+                        name="persyaratan_pendidikan_terendah_petugas"
+                        value={formData.persyaratan_pendidikan_terendah_petugas} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["SMP","SMA/SMK","Diploma I/II/III","Diploma IV/S1/S2/S3"]}
+                    />
+
+                    <InputForm 
+                        text={`6.6 Jumlah Petugas`}
+                        not_input_title={true}
+                    />
+                    
+
+                    <InputForm 
+                        text={"Supervisor/Penyelia/Pengawas"}
+                        name="jumlah_supervisor"
+                        value={formData.jumlah_supervisor}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+
+                    <InputForm 
+                        text={"Pengumpul data/enumerator"}
+                        name="jumlah_pengumpul_data"
+                        value={formData.jumlah_pengumpul_data}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+
+                    <InputForm 
+                        text={`6.7 Apakah Melakukan Pelatihan Petugas?`}
+                        name="pelatihan_petugas"
+                        value={formData.pelatihan_petugas} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Ya","Tidak"]}
+                    />
+
+                    <BabDiv text={"VII. PENGOLAHAN DAN ANALISIS"} />
+                    
+                    <InputForm 
+                        text={"7.1 Tahap Pengolahan Data"}
+                        name="faksimile"
+                        not_input_title={true}
+                        print_info={true}
+                        info={["Ya","Tidak"]}
+                    />
+
+                    <InputForm 
+                        text={"Penyuntingan (Editing)"}
+                        name="penyuntingan"
+                        value={formData.penyuntingan}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+                    <InputForm 
+                        text={"Penyandian (Coding)"}
+                        name="penyandian"
+                        value={formData.penyandian}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+                    <InputForm 
+                        text={"Data Entry"}
+                        name="data_entry"
+                        value={formData.data_entry}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+                    <InputForm 
+                        text={"Penyahihan"}
+                        name="penyahihan"
+                        value={formData.penyahihan}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+
+                    <InputForm 
+                        text={`7.2 Metode Analisis`}
+                        name="metode_analisis"
+                        value={formData.metode_analisis} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Deskriptif","Inferensia","Deskriptif dan Inferensia"]}
+                    />
+
+                    <InputForm 
+                        text={`7.3 Unit Analisis`}
+                        name="unit_analisis"
+                        value={formData.unit_analisis} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Individu","Rumah Tangga","Usaha/Perusahaan","Lainnya"]}
+                    />
+
+                    <InputForm 
+                        text={`7.4 Tingkat Penyajian Hasil Analisis`}
+                        name="tingkat_penyajian_hasil_analisis"
+                        value={formData.tingkat_penyajian_hasil_analisis} 
+                        change={handleChange} 
+                        print_info={true}
+                        info={["Nasional","Provinsi","Kabupaten/Kota","Kecamatan","Lainnya"]}
+                    />
+                    
+                    <BabDiv text={"VII. DISEMINASI HASIL"} />
+                    
+                    <InputForm 
+                        text={"8.1 Produk Kegiatan yang Tersedia untuk Umum"}
+                        name="faksimile"
+                        not_input_title={true}
+                    />
+
+                    
+
+                    <InputForm 
+                        text={"8.2 Jika pilihan R.8.1 kode 1, Rencana Rilis Produk Kegiatan :"}
+                        name="faksimile"
+                        not_input_title={true}
+                    />
 
                 </form>
             </section>

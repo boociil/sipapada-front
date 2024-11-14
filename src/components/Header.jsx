@@ -24,7 +24,7 @@ export default function Header(props) {
         setBgColor("bg-[#FBFBFB] text-black shadow-lg"); // Warna background saat di-scroll
       }
        else {
-        setBgColor("bg-transparent text-white"); // Kembali ke warna transparan
+        setBgColor("bg-transparent " + txt_colour); // Kembali ke warna transparan
       }
     };
 

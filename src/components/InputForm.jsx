@@ -21,14 +21,27 @@ export default function InputForm(props) {
                 {
                     !props.not_input_title && (
                         <>
-                            <input 
-                                type="text" 
-                                className={`px-2 h-8 rounded-md mt-1 text-center ${props.print_info ? " w-16" : ""}`} 
-                                name={props.name} 
-                                id={props.name}
-                                value={props.value}
-                                onChange={props.change}
-                            />
+                            {
+                                !props.big_input ? (
+                                    <input 
+                                        type="text" 
+                                        className={`px-2 h-8 rounded-md mt-1 text-center ${props.print_info ? " w-16" : ""}`} 
+                                        name={props.name} 
+                                        id={props.name}
+                                        value={props.value}
+                                        onChange={props.change}
+                                    />
+                                ) : (
+                                    <textarea
+                                        className="px-2 h-32 rounded-md mt-1 text-center"
+                                        name={props.name}
+                                        id={props.name}
+                                        value={props.value}
+                                        onChange={props.change}
+                                    />
+                                )
+                            }
+                            
                         </>
                     )
                 }

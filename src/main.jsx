@@ -27,7 +27,7 @@ createRoot(document.getElementById('root')).render(
             <Login />
           </>
         }></Route>
-        <Route path="/Form/:id" element={
+        <Route path="/Form-keg/:id" element={
           <>
             <Header txt="text-black" type="fixed" />
             <Form />

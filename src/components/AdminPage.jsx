@@ -172,7 +172,7 @@ export default function Main() {
             {/* From Uiverse.io by iZOXVL */}
             <div
                 style={{ animation: "slideInFromLeft 1s ease-out" }}
-                className="relative min-w-96 max-w-4xl bg-[#2C2C2C] mx-auto rounded-xl shadow-xl overflow-hidden p-8 space-y-8"
+                className="relative min-w-96 max-w-2xl bg-[#2C2C2C] mx-auto rounded-xl shadow-xl overflow-hidden p-8 space-y-8"
             >
                 {/* bagian bulet */}
                 
@@ -228,6 +228,8 @@ export default function Main() {
                         Alias
                     </label>
                 </div>
+
+                
                 
                 <button
                 className="w-full py-2 px-4 bg-white hover:bg-gray-500 hover:text-white rounded-md shadow-lg text-black font-semibold transition duration-1000"
@@ -237,6 +239,10 @@ export default function Main() {
                 </button>
             </form>
             </div>
+
+        <h1 className={`text-white mt-8 text-2xl lg:text-4xl font-bold text-black mb-6 ${isVisible ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>
+          Dinas/OPD
+        </h1>
 
         <div className="max-w-4xl mx-auto mt-10">
             <div className="p-2 border-b border-gray-300 grid grid-cols-3 text-white">
