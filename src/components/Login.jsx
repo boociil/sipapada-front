@@ -70,7 +70,7 @@ export default function Main() {
           >
             Masukan username dan password anda
           </p>
-          <form method="POST" action="#" className="space-y-6">
+          <div method="POST" action="#" className="space-y-6">
             <div className="relative">
               <input
                 placeholder="username"
@@ -121,7 +121,7 @@ export default function Main() {
             >
               Sign In
             </button>
-          </form>
+          </div>
           
         </div>
       </section>

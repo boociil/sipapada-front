@@ -91,7 +91,7 @@ export default function Main() {
     <section className="relative pb-0 mt-4">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         <div className="py-2 w-full ">
-        <h1 className={`text-black mt-8 text-2xl lg:text-4xl font-bold text-black mb-6 ${isVisible ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>
+        <h1 className={` mt-8 text-2xl lg:text-4xl font-bold text-black mb-6 ${isVisible ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>
           Temukan OPD Anda
         </h1>
           <div className="w-full  flex justify-center lg:justify-center">

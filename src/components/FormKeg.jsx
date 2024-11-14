@@ -5,6 +5,7 @@ import bpsLogo from '../assets/bps.png';
 import InputForm from './InputForm';
 import BabDiv from "./BabDiv";
 import TableJadwalKegiatan from "./TabelJadwalKegiatan";
+import TableVarStat from './TableVarStat'
 
 export default function Main() {
 
@@ -449,11 +450,19 @@ export default function Main() {
                         not_input_title={true}
                     />
 
-                    < TableJadwalKegiatan />
+                    <div className="flex justify-center">
+                        < TableJadwalKegiatan />
+
+                    </div>
+
                     <InputForm 
                         text={"3.4 Variabel Karakteristik yang Dikumpulkan"} 
                         not_input_title={true}
                     />
+
+                    <div className="flex justify-center">
+                        < TableVarStat />
+                    </div>
 
                     <BabDiv text={"IV. DESAIN KEGIATAN"} />
 
