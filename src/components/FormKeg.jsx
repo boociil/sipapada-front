@@ -6,6 +6,8 @@ import InputForm from './InputForm';
 import BabDiv from "./BabDiv";
 import TableJadwalKegiatan from "./TabelJadwalKegiatan";
 import TableVarStat from './TableVarStat'
+import TableWilayah from './TableWilayah'
+import RencanaRilisProduk from './RencanaRilisProduk'
 
 export default function Main() {
 
@@ -69,6 +71,11 @@ export default function Main() {
     metode_analisis:"",
     unit_analisis:"",
     tingkat_penyajian_hasil_analisis:"",
+    // BAB VIII
+    tercetak: "",
+    digital:"",
+    data_mikro:"",
+
     
   });
 
@@ -510,6 +517,10 @@ export default function Main() {
                         not_input_title={true}
                     />
 
+                    <div className="flex justify-center">
+                        < TableWilayah />
+                    </div>
+
                     <InputForm 
                         text={"4.6 Metode Pengumpulan Data"} 
                         name="metode_pengumpulan_data"
@@ -763,8 +774,31 @@ export default function Main() {
                         text={"8.1 Produk Kegiatan yang Tersedia untuk Umum"}
                         name="faksimile"
                         not_input_title={true}
+                        print_info={true}
+                        info={["Ya","Tidak"]}
                     />
 
+                    <InputForm 
+                        text={"Tercetak"}
+                        name="tercetak"
+                        value={formData.tercetak}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+                    <InputForm 
+                        text={"Digital"}
+                        name="digital"
+                        value={formData.digital}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
+                    <InputForm 
+                        text={"Data Mikro"}
+                        name="data_mikro"
+                        value={formData.data_mikro}
+                        change={handleChange}
+                        font_is_small={true}
+                    />
                     
 
                     <InputForm 
@@ -772,6 +806,10 @@ export default function Main() {
                         name="faksimile"
                         not_input_title={true}
                     />
+
+                    <div className="flex justify-center">
+                        < RencanaRilisProduk />
+                    </div>
 
                 </form>
             </section>
