@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import bgImage from "../assets/Bg.png"
-import arrowDown from "../assets/arrowDown.png"
+import bgImage from "../assets/Bg.png";
+import arrowDown from "../assets/arrowDown.png";
+import BoxOPD from "./BoxOPD";
 
 export default function Main() {
 
@@ -44,8 +45,6 @@ export default function Main() {
     reqDataOPD()
     .then(success => {
       setAllOPD(success.msg);
-      console.log(success.msg);
-      
     })
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -91,10 +90,10 @@ export default function Main() {
     <section className="relative pb-0 mt-4">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         <div className="py-2 w-full ">
-        <h1 className={` mt-8 text-2xl lg:text-4xl font-bold text-black mb-6 ${isVisible ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>
-          Temukan OPD Anda
-        </h1>
-          <div className="w-full  flex justify-center lg:justify-center">
+          <h1 className={` mt-8 text-2xl lg:text-4xl font-bold text-black mb-6 `}>
+            Temukan OPD Anda
+          </h1>
+          <div className="w-full  flex justify-center mb-8 lg:justify-center">
             <input
               type="text"
               placeholder="Nama OPD"
@@ -106,14 +105,22 @@ export default function Main() {
             </div>
           </div>
 
+          <div className="md:grid md:grid-cols-3 lg:grid-cols-4">
           {
             allOPD.map((opd,i) => (
-              <div key={i} className="p-2 border-b border-gray-300 ">
-                <h2 className="text-lg font-semibold text-black">{opd.nama}</h2>
-                <p className="text-gray-600">{opd.alamat}</p>
-              </div>
+              <>
+                <BoxOPD 
+                  key={opd.id}
+                  id={opd.id}
+                  nama={opd.nama}
+                  alias={opd.alias}
+                  alamat={opd.alamat}
+                  img_link={backendUrl+'uploads/' + opd.id + '.png'}
+                  />
+              </>
             ))
           }
+          </div>
   
         </div>
       </div>

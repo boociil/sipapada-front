@@ -240,7 +240,7 @@ export default function Main() {
             </form>
             </div>
 
-        <h1 className={`text-white mt-8 text-2xl lg:text-4xl font-bold text-black mb-6 ${isVisible ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>
+        <h1 className={`text-white mt-8 text-2xl lg:text-4xl font-bold mb-6 ${isVisible ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>
           Dinas/OPD
         </h1>
 
