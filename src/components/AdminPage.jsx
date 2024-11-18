@@ -4,6 +4,7 @@ import bgImage from "../assets/Bg.png";
 import { Link } from 'react-scroll';
 import Loading from "./Loading"
 import DeleteIcon from "../assets/delete.png"
+import Alert from "./Alert.jsx"
 
 export default function Main() {
 
@@ -15,6 +16,8 @@ export default function Main() {
   const [dinasOptions, setDinasOptions] = useState([]); 
   const [dataUsersLength,setDataUsersLength] = useState();
   const [addUserLoading,setAddUserLoading] = useState(false);
+  const [showConfirmCard,setShowConfirmCard] = useState(false);
+  const [usernameActive,setUsernameActive] = useState("")
   const [dataDinas, setDataDinas] = useState({
     nama: "",
     alias:"",
@@ -34,24 +37,43 @@ export default function Main() {
     navigate(path);
   };
 
+  const validateAddUser = () => {
+    if (dataUser.password.length < 8){
+      return false;
+    }
+
+    if (dataUser.password !== dataUser.confPass){
+      return false;
+    }
+
+    return true;
+  }
+
   const onSubmitUserClick = async (event) => {
     setAddUserLoading(true);
     event.preventDefault();
+    
+    console.log(dataUser);
     // VALIDASI DULU APAKAH FORM MASIH KOSONG ATAU SUDAH TERISI
-    await sendDataUserTOBackend(dataUser)
-    .then(success => {
-      console.log(success.msg);
-    })
-    setDataUsersLength(dataUsersLength+1);
-    setAddUserLoading(false);
-    setShowUserForm(false);
-    setDataUser({
-      username: "",
-      role: 1,
-      password: "",
-      confPass: "",
-      dinas: "1",
-    });
+    if (validateAddUser()){
+      await sendDataUserTOBackend(dataUser)
+      .then(success => {
+
+      })
+      setDataUsersLength(dataUsersLength+1);
+      setAddUserLoading(false);
+      setShowUserForm(false);
+      setDataUser({
+        username: "",
+        role: 1,
+        password: "",
+        confPass: "",
+        dinas: "1",
+      });
+    }else{
+      setAddUserLoading(false);
+    }
+    
   }
 
   const onAddUserClick = () => {
@@ -86,6 +108,45 @@ export default function Main() {
       [name]: value
     });
   };
+
+  const deleteUserInBackend = ( username ) => {
+    return new Promise((resolve,reject) => {
+        const requestOptions = {
+            method: 'POST', // Metode HTTP
+            headers: {
+                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+            },
+            body: JSON.stringify ({ 
+                "username" : username
+             }) 
+        };
+        
+        fetch(backendUrl + 'delete_user', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === 200){
+                resolve(data);
+            }else{
+                reject("Error");
+            }
+        });
+    })
+
+  }
+
+  const proceedDeleteUser = async (username) => {
+    await deleteUserInBackend(username)
+    .then(success => {
+      setDataUsersLength(dataUsersLength-1);
+      setShowConfirmCard(false);
+    })
+  }
+
+  const onDeleteUserClick = (event,username) => {
+    setUsernameActive(username);
+    
+    setShowConfirmCard(true);
+  }
 
   // Fetch data user
   const reqDataUsers = () => {
@@ -199,6 +260,16 @@ export default function Main() {
 
   return (
     <>
+
+    <Alert 
+      open={showConfirmCard} 
+      setOpen={setShowConfirmCard} 
+      isConfirm={true} 
+      onConfirm={() => proceedDeleteUser(usernameActive)} 
+      msg={`Delete User ${usernameActive}?`} 
+      subMsg="Jika user dihapus, maka data user akan hilang" 
+    />
+
       <section className="text-gray-600 shadow-2xl body-font h-screen flex items-center justify-center bg-cover bg-opacity-10" style={{ backgroundImage: `url(${bgImage})` }}>
         <div className="mt-20 pb-24 mx-auto text-center items-center justify-center">
           <h1 className={`text-4xl lg:text-6xl font-bold text-white mb-6 ${isVisible ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>
@@ -218,7 +289,7 @@ export default function Main() {
         </div>
       </section>
 
-      <section name="users_management" className="tambah-instansi-disini text-gray-600 shadow-2xl body-font flex items-center  bg-cover bg-opacity-10">
+      <section name="users_management" className="tambah-instansi-disini text-gray-600 shadow-2xl body-font flex items-center mx-auto bg-cover bg-opacity-10">
         <div className="mt-20 pb-24 mx-auto text-center items-center justify-center">
           <h1 className={`text-2xl lg:text-4xl font-bold text-black mb-6 ${isVisible ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>
             Users
@@ -236,7 +307,10 @@ export default function Main() {
                 <h2 className="text-gray-600">{usr.username}</h2>
                 <p className="text-gray-600">{usr.role}</p>
                 <p className="text-gray-600">{usr.dinas}</p>
-                <div className="text-center w-full flex justify-center">
+                <div 
+                  className="text-center w-full flex justify-center"
+                  onClick={(e) => onDeleteUserClick(e, usr.username)}
+                >
                   <img src={DeleteIcon} alt="Delete" className="w-6 h-auto cursor-pointer"/>
                 </div>
               </div>
@@ -249,7 +323,7 @@ export default function Main() {
             className="bg-blue-500 hover:bg-blue-400 transition-all duration-300 cursor-pointer text-white font-semibold px-2 py-1 rounded-md mt-6"
             onClick={onAddUserClick}
           >
-            Add User
+            Tambah User
           </div>
 
           {
@@ -259,7 +333,7 @@ export default function Main() {
                 <div style={{ animation: "slideInFromLeft 1s ease-out" }} className="relative min-w-96 mt-8 max-w-2xl bg-white mx-auto rounded-xl border-2 border-blue-100 overflow-hidden p-8 space-y-8">
 
                   <div 
-                    className="close-button cursor-pointer hover:bg-red-400 hover:scale-110 transition-all duration-500 absolute right-5 top-5 bg-red-500 text-white font-bold px-4 py-2 rounded-full text-xl"
+                    className="close-button cursor-pointer hover:bg-red-400 hover:scale-110 transition-all duration-500 absolute -right-3 -top-3 hover:-right-1 hover:-top-1 bg-red-500 text-white font-bold px-4 py-2 rounded-full text-xl"
                     onClick={onCloseAddUserClick}
                   >
                     X
@@ -333,7 +407,7 @@ export default function Main() {
                     </div>
 
                     <button 
-                      className="w-full py-2 px-4 hover:bg-gray-400 bg-blue-500 text-white rounded-md shadow-lg font-semibold transition duration-1000"
+                      className="w-full py-2 px-4 hover:bg-blue-400 bg-blue-500 text-white rounded-md shadow-lg font-semibold transition duration-1000"
                       onClick={onSubmitUserClick}
                     >
                       
