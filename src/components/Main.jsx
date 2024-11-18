@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import bgImage from "../assets/Bg.png";
 import arrowDown from "../assets/arrowDown.png";
 import BoxOPD from "./BoxOPD";
+import Loading from "./Loading"
 
 export default function Main() {
 
@@ -105,7 +106,7 @@ export default function Main() {
             </div>
           </div>
 
-          <div className="md:grid md:grid-cols-3 lg:grid-cols-4">
+          <div className="md:grid md:grid-cols-3 lg:grid-cols-4 ">
           {
             allOPD.map((opd,i) => (
               <>
