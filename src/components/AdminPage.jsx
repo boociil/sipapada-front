@@ -53,25 +53,29 @@ export default function Main() {
     setAddUserLoading(true);
     event.preventDefault();
     
-    console.log(dataUser);
     // VALIDASI DULU APAKAH FORM MASIH KOSONG ATAU SUDAH TERISI
     if (validateAddUser()){
       await sendDataUserTOBackend(dataUser)
       .then(success => {
-
+        setDataUsersLength(dataUsersLength+1);
+        setAddUserLoading(false);
+        setShowUserForm(false);
+        setDataUser({
+          username: "",
+          role: 1,
+          password: "",
+          confPass: "",
+          dinas: "1",
+        });
       })
-      setDataUsersLength(dataUsersLength+1);
-      setAddUserLoading(false);
-      setShowUserForm(false);
-      setDataUser({
-        username: "",
-        role: 1,
-        password: "",
-        confPass: "",
-        dinas: "1",
-      });
+      .catch(error => {
+        const msg_div = document.getElementById("message-div")
+        msg_div.classList.remove("hidden");
+      })
     }else{
       setAddUserLoading(false);
+      const msg_div = document.getElementById("message-div")
+      msg_div.classList.remove("hidden");
     }
     
   }
@@ -102,6 +106,8 @@ export default function Main() {
 
   // Mengubah state dataUser
   const handleChangeUser = (e) => {
+    const msg_div = document.getElementById("message-div")
+    msg_div.classList.add("hidden");
     const { name, value } = e.target;
     setDataUser({
       ...dataUser,  // Perbaiki ini untuk menggunakan dataUser
@@ -404,6 +410,18 @@ export default function Main() {
                           </option>
                         ))}
                       </select>
+                    </div>
+
+                    <div className='text-red-500 text-xs hidden' id='message-div'>
+                      <div>
+                      Periksa Isian Form :   
+                      </div>
+                      <div>
+                      *password lebih dari 8 karakter
+                      </div>
+                      <div>
+                      *pastikan password sama
+                      </div>
                     </div>
 
                     <button 

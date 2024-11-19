@@ -3,14 +3,52 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import bgImage from "../assets/Bg.png"
 import arrowBack from "../assets/arrowBack.png"
+import { useCookies } from 'react-cookie';
 
 export default function Main() {
 
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const [dataUser,setDataUser] = useState({
+    username: "",
+    password:"",
+  })
   const navigate = useNavigate();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   
   const redirectTo = (path) => {
     navigate(path);
   }; 
+
+  const handleChange = (e) => {
+    const msg_div = document.getElementById("message-div")
+    msg_div.classList.add("hidden");
+    const { name, value } = e.target;
+    setDataUser({
+      ...dataUser, 
+      [name]: value
+    });
+  };
+
+  const onSubmitClick = async (event) => {
+    await sendData(dataUser)
+    .then(success => {
+      console.log(success);
+      const expirationDate = new Date();
+      expirationDate.setHours(expirationDate.getHours() + 24); 
+      setCookie('user', success.username, { path: '/', expires: expirationDate }); 
+      setCookie('token', success.accessToken, { path: '/', expires: expirationDate }); 
+      setCookie('role', success.role, { path: '/', expires: expirationDate }); 
+      
+      if(success.role == 0){
+        navigate('/Admin');
+      }
+
+    })
+    .catch(error => {
+      const msg_div = document.getElementById("message-div")
+      msg_div.classList.remove("hidden");
+    })
+  }
 
   const sendData = ( loginData ) => {
     return new Promise((resolve,reject) => {
@@ -21,14 +59,14 @@ export default function Main() {
             },
             body: JSON.stringify ({ 
                 "username" : loginData.username,
-                "password" : loginData.pass,
+                "password" : loginData.password,
              }) 
         };
         
         fetch(backendUrl + 'Login', requestOptions)
         .then(response => response.json())
         .then(data => {
-            if(data.msg === "Success"){
+            if(data.status == 200){
                 resolve(data);
             }else{
                 reject("Password atau Username tidak benar");
@@ -79,6 +117,8 @@ export default function Main() {
                 id="username"
                 name="username"
                 type="text"
+                value={dataUser.username}
+                onChange={handleChange}
               />
               <label
                 className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white peer-focus:text-xs"
@@ -95,6 +135,8 @@ export default function Main() {
                 id="password"
                 name="password"
                 type="password"
+                value={dataUser.password}
+                onChange={handleChange}
               />
               <label
                 className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white peer-focus:text-xs"
@@ -102,6 +144,9 @@ export default function Main() {
               >
                 Password
               </label>
+            </div>
+            <div className='text-red-500 text-xs hidden' id='message-div'>
+                *username atau password tidak sesuai
             </div>
             <div className="flex items-center justify-between">
               <label className="flex items-center text-sm text-gray-200">
@@ -115,9 +160,10 @@ export default function Main() {
                 Lupa Password?
               </a>
             </div>
+            
             <button
               className="w-full py-2 px-4 bg-white hover:bg-gray-500 hover:text-white rounded-md shadow-lg text-black font-semibold transition duration-1000"
-              type="submit"
+              onClick={onSubmitClick}
             >
               Sign In
             </button>
