@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import bgImage from "../assets/Bg.png";
 import arrowDown from "../assets/arrowDown.png";
 import BoxOPD from "./BoxOPD";
+import { useCookies } from 'react-cookie';
 import Loading from "./Loading"
 
 export default function Main() {
 
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const [isVisible, setIsVisible] = useState(false);
   const [isVisible1, setIsVisible1] = useState(false);
   const [isVisible2, setIsVisible2] = useState(false);
@@ -78,9 +80,13 @@ export default function Main() {
           Sistem integrasi Metadata Statistik, Data dalam Angka, dan Rekomendasi Statistik Kabupaten Padang Pariaman.
         </h2>
         <div className={`login flex font-bold p-1 mt-8 justify-center ${isVisible1 ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>
-          <div className="bg-white text-md md:text-lg py-1 px-10 hover:scale-110 rounded-lg cursor-pointer hover:bg-gray-500 hover:text-white transition-all duration-700 shadow-lg" onClick={() => redirectTo("/Login")}>
-            Login
-          </div>
+          {
+            !cookies.user && (
+              <div className="bg-white text-md md:text-lg py-1 px-10 hover:scale-110 rounded-lg cursor-pointer hover:bg-gray-500 hover:text-white transition-all duration-700 shadow-lg" onClick={() => redirectTo("/Login")}>
+                Login
+              </div>
+            )
+          }
         </div>
       </div>
       <div className={`absolute text-white bottom-0 w-14 h-14 animate-bounce cursor-pointer ${isVisible2 ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>

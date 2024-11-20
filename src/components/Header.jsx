@@ -1,8 +1,15 @@
 import React, {useState, useEffect} from "react";
-
+import { useCookies } from 'react-cookie';
 
 export default function Header(props) {
 
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+
+  const onLogout = () => {
+    Object.keys(cookies).forEach((cookieName) => {
+      removeCookie(cookieName, { path: '/' }); // Pastikan `path` sesuai dengan lokasi cookie
+    });
+  }
   
   let txt_colour = "text-white";
   let header_type = "absolute";
@@ -38,7 +45,7 @@ export default function Header(props) {
   return (
     <header className={`${header_type} transition-all duration-500 top-0 left-0 w-full clearNav z-50 ${bgColor}`}>
       <div className="max-w-5xl mx-auto flex flex-wrap p-5 flex-col md:flex-row">
-      <div className="flex flex-row items-center justify-between p-3 md:p-1">
+      <div className="flex flex-grow items-center justify-between p-3 md:p-1">
         <a
           href="/"
           className={`flex text-xl md:text-2xl lg:text-8x font-medium mb-0 md:mb-0 w-full justify-center md:justify-start `}
@@ -46,9 +53,14 @@ export default function Header(props) {
           SIPAPADA1306
         </a>
         
-        {/* <div className="text-white text-xl font-bold hidden md:flex md:flex-grow">
-          Login
-        </div> */}
+        {
+          cookies.user && (
+            <div className="text-white cursor-pointer text-xl font-bold hidden md:flex md:flex-grow" onClick={onLogout}>
+              Logout
+            </div>
+          )
+        }
+
       </div>
 
         
