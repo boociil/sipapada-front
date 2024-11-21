@@ -32,7 +32,6 @@ export default function Main() {
   const onSubmitClick = async (event) => {
     await sendData(dataUser)
     .then(success => {
-      console.log(success);
       const expirationDate = new Date();
       expirationDate.setHours(expirationDate.getHours() + 24); 
       setCookie('user', success.username, { path: '/', expires: expirationDate }); 

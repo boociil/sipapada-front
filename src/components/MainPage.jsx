@@ -112,7 +112,7 @@ export default function Main() {
             </div>
           </div>
 
-          <div className="md:grid md:grid-cols-3 lg:grid-cols-4 ">
+          <div className="md:grid md:grid-cols-3 lg:grid-cols-4">
           {
             allOPD.map((opd,i) => (
               <>

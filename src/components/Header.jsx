@@ -1,16 +1,9 @@
 import React, {useState, useEffect} from "react";
 import { useCookies } from 'react-cookie';
+import { useNavigate } from "react-router-dom";
 
 export default function Header(props) {
 
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
-
-  const onLogout = () => {
-    Object.keys(cookies).forEach((cookieName) => {
-      removeCookie(cookieName, { path: '/' }); // Pastikan `path` sesuai dengan lokasi cookie
-    });
-  }
-  
   let txt_colour = "text-white";
   let header_type = "absolute";
   if (props.bg !== undefined){
@@ -23,7 +16,21 @@ export default function Header(props) {
     header_type = props.type
   }
   
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const [bgColor, setBgColor] = useState("bg-transparent " + txt_colour); // Default background transparent
+  const navigate = useNavigate();
+
+  const redirectTo = (path) => {
+    navigate(path);
+  };
+
+  const onLogout = () => {
+    Object.keys(cookies).forEach((cookieName) => {
+      removeCookie(cookieName, { path: '/' }); // Pastikan `path` sesuai dengan lokasi cookie
+    });
+    redirectTo("/")
+  }
+  
   
   useEffect(() => {
     const handleScroll = () => {
@@ -55,7 +62,7 @@ export default function Header(props) {
         
         {
           cookies.user && (
-            <div className="text-white cursor-pointer text-xl font-bold hidden md:flex md:flex-grow" onClick={onLogout}>
+            <div className={` cursor-pointer text-xl font-bold hidden md:flex md:flex-grow hover:scale-105 transition-all duration-200`} onClick={onLogout}>
               Logout
             </div>
           )

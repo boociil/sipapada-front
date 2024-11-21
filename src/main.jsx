@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css'
 import { AuthProvider } from './components/AuthContext.jsx'; // Pastikan ini benar
 import RoutesAdmin from './components/RoutesAdmin.jsx';
-import Main from './components/Main.jsx'
+import Main from './components/MainPage.jsx'
 import Footer from './components/Footer.jsx'
 import Header from './components/Header.jsx'
 import Login from './components/Login.jsx'

@@ -37,6 +37,13 @@ export default function Main() {
     navigate(path);
   };
 
+  const onLogout = () => {
+    Object.keys(cookies).forEach((cookieName) => {
+      removeCookie(cookieName, { path: '/' }); // Pastikan `path` sesuai dengan lokasi cookie
+    });
+    redirectTo("/")
+  }
+
   const validateAddUser = () => {
     if (dataUser.password.length < 8){
       return false;
@@ -226,7 +233,6 @@ export default function Main() {
       .then(success => {
         setDataUsers(success.msg);
         setDataUsersLength(success.msg.length)
-        console.log(success.msg);
       });
   }, [dataUsersLength])
 
@@ -235,7 +241,6 @@ export default function Main() {
     reqDataOPD()
       .then(success => {
         setAllOPD(success.msg);
-        console.log(success.msg);
       });
     
     const timer = setTimeout(() => {
@@ -291,6 +296,9 @@ export default function Main() {
             <Link to="tambah_instansi" smooth={true} duration={500} className="bg-white mb-4 text-md md:text-lg py-1 px-10 hover:scale-110 rounded-lg cursor-pointer hover:bg-gray-500 hover:text-white transition-all duration-700 shadow-lg">
               Tambah Instansi
             </Link>
+            <div className="bg-black text-white mb-4 text-md md:text-lg py-1 px-10 hover:scale-110 rounded-lg cursor-pointer transition-all duration-700 md:hidden">
+              Logout
+            </div>
           </div>
         </div>
       </section>
@@ -404,6 +412,7 @@ export default function Main() {
                         value={dataUser.dinas}
                         onChange={handleChangeUser}
                       >
+
                         {dinasOptions.map((option) => (
                           <option key={option.value} value={option.value}>
                             {option.label}
