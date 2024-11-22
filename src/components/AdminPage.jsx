@@ -64,15 +64,11 @@ export default function Main() {
             });
 
             if (!response.ok) {
-                setMsg('Upload Gagal!');
-                setSubMsg('Pastikan file telah sesuai dengan template dan tidak ada missing data');
-                setIsValidated(true);
+                console.log("Upload Gagal!");
+                
             }
             
             // Toast Success
-
-
-            navigate("/Rekap")
 
         } catch (error) {
 
@@ -167,6 +163,7 @@ export default function Main() {
   }
 
   const onAddOPDClick = () => {
+    setSelectedFile(null);
     setShowOPDForm(true);
   }
 
