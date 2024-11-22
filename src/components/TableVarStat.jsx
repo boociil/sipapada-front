@@ -62,10 +62,6 @@ export default function InputForm(props) {
         return rows; // Mengembalikan array dari JSX
     }
 
-    useEffect(() => {
-        console.log(rowAdd);
-    }, [rowAdd]);
-
     return (
         <>
             <div className="flex flex-col">

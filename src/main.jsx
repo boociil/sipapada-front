@@ -8,7 +8,9 @@ import Main from './components/MainPage.jsx'
 import Footer from './components/Footer.jsx'
 import Header from './components/Header.jsx'
 import Login from './components/Login.jsx'
-import Form from './components/FormKeg.jsx'
+import FormKeg from './components/FormKeg.jsx'
+import FormVar from './components/FormVar.jsx'
+import FormInd from './components/FormInd.jsx'
 import AdminPage from "./components/AdminPage.jsx"
 
 createRoot(document.getElementById('root')).render(
@@ -32,7 +34,7 @@ createRoot(document.getElementById('root')).render(
           <Route element={<RoutesAdmin />}>
             <Route path="/Admin/" element={
               <>
-                <Header type="fixed" />
+                <Header type="fixed"/>
                 <AdminPage />
               </>
             }></Route>
@@ -41,7 +43,21 @@ createRoot(document.getElementById('root')).render(
           <Route path="/Form-keg/:id" element={
             <>
               <Header txt="text-black" type="fixed" />
-              <Form />
+              <FormKeg />
+            </>
+          }></Route>
+
+          <Route path="/Form-var/:id" element={
+            <>
+              <Header txt="text-black" type="fixed" />
+              <FormVar />
+            </>
+          }></Route>
+
+          <Route path="/Form-ind/:id" element={
+            <>
+              <Header txt="text-black" type="fixed" />
+              <FormInd />
             </>
           }></Route>
           

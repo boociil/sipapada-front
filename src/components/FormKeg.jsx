@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import bpsLogo from '../assets/bps.png';
 import InputForm from './InputForm';
 import BabDiv from "./BabDiv";
@@ -11,6 +11,7 @@ import RencanaRilisProduk from './RencanaRilisProduk'
 
 export default function Main() {
 
+  const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     judul_kegiatan: "",
@@ -84,6 +85,11 @@ export default function Main() {
   const redirectTo = (path) => {
     navigate(path);
   }; 
+
+  const onNextClick = () => {
+    
+    navigate("/Form-var/" + id);
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -811,6 +817,15 @@ export default function Main() {
                         < RencanaRilisProduk digital={formData.digital} tercetak={formData.tercetak} data_mikro={formData.data_mikro} />
                     </div>
 
+
+                    <div className=" flex justify-end mt-4">
+                        <div 
+                            className="bg-white w-fit px-6 rounded-md my-2 cursor-pointer hover:shadow-lg transition-all duration-200"
+                            onClick={onNextClick}
+                        >
+                            Selanjutnya
+                        </div>
+                    </div>
                 </form>
             </section>
         </section>
