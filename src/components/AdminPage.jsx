@@ -12,6 +12,7 @@ export default function Main() {
   const [isVisible1, setIsVisible1] = useState(false);
   const [dataUsers, setDataUsers] = useState([]);
   const [allOPD, setAllOPD] = useState([]);
+  const [opdTrigger, setOpdTrigger] = useState(0);
   const [showUserForm, setShowUserForm] = useState(false);
   const [showOPDForm, setShowOPDForm] = useState(false);
   const [dinasOptions, setDinasOptions] = useState([]); 
@@ -51,33 +52,55 @@ export default function Main() {
     setSelectedFile(file);      
   };
 
-  const sendFile = async () => {
+  const validate = () => {
+    const fileName = selectedFile.name;
+    const fileExtension = fileName.split('.').pop();
 
-    const formData = new FormData();
-    formData.append('file', selectedFile);
+    if(fileExtension !== "png"){
+        setMsg('Ekstensi File Tidak Sesuai!');
+        setSubMsg('Ekstensi file yang diperbolehkan hanyalah .xlsx');
+        return false;
+    } 
 
-    if(validate()){
-        try {
-            const response = await fetch(backendUrl + 'upload', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                console.log("Upload Gagal!");
-                
-            }
-            
-            // Toast Success
-
-        } catch (error) {
-
-        }
-    }else{
-        setIsValidated(true);
-    }
-
+    return true;
 }
+
+const sendFile = async () => {
+  const formData = new FormData();
+  formData.append('file', selectedFile);
+  formData.append('nama', dataDinas.nama);
+  formData.append('alias', dataDinas.alias);
+
+  if (validate()) {
+    try {
+      const response = await fetch(backendUrl + 'add_opd', {
+        method: 'POST',
+        body: formData,  // Kirimkan formData yang sudah berisi file dan data lainnya
+      });
+  
+      if (!response.ok) {
+        console.log("Upload Gagal!");
+        // Handle error response
+      } else {
+        // Toast Success atau lakukan sesuatu setelah upload berhasil
+        const data = await response.json();
+        console.log(data);
+        
+        setOpdTrigger(opdTrigger+1);
+        setShowOPDForm(false);
+        // // Refresh halaman setelah upload berhasil
+        // window.location.reload();  // Ini akan memuat ulang halaman
+      }
+  
+    } catch (error) {
+      console.error("Terjadi kesalahan saat upload:", error);
+      // Handle error saat melakukan request (misalnya masalah jaringan)
+    }
+  } else {
+    console.log("Validasi gagal");
+  }
+};  
+
 
   const validateAddUser = () => {
     if (dataUser.password.length < 8){
@@ -331,7 +354,7 @@ export default function Main() {
       setIsVisible(true);
     }, 500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [opdTrigger]);
 
   // Efek untuk mengupdate dinasOptions setelah allOPD tersedia
   useEffect(() => {
@@ -688,7 +711,10 @@ export default function Main() {
                   )
                 }
 
-                  <button className="w-full py-2 px-4 bg-white hover:bg-gray-500 hover:text-white rounded-md shadow-lg text-black font-semibold transition duration-1000">
+                  <button 
+                    className="w-full py-2 px-4 bg-white hover:bg-gray-500 hover:text-white rounded-md shadow-lg text-black font-semibold transition duration-1000"
+                    onClick={sendFile}
+                  >
                     Tambah
                   </button>
                 </div>
