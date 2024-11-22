@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import bgImage from "../assets/Bg.png";
 import { Link } from 'react-scroll';
@@ -13,11 +13,17 @@ export default function Main() {
   const [dataUsers, setDataUsers] = useState([]);
   const [allOPD, setAllOPD] = useState([]);
   const [showUserForm, setShowUserForm] = useState(false);
+  const [showOPDForm, setShowOPDForm] = useState(false);
   const [dinasOptions, setDinasOptions] = useState([]); 
   const [dataUsersLength,setDataUsersLength] = useState();
   const [addUserLoading,setAddUserLoading] = useState(false);
   const [showConfirmCard,setShowConfirmCard] = useState(false);
-  const [usernameActive,setUsernameActive] = useState("")
+  const [usernameActive,setUsernameActive] = useState("");
+  const [dragging, setDragging] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [ eks, setEks ] = useState(null);
+  const uploadedFileRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [dataDinas, setDataDinas] = useState({
     nama: "",
     alias:"",
@@ -37,12 +43,45 @@ export default function Main() {
     navigate(path);
   };
 
-  const onLogout = () => {
-    Object.keys(cookies).forEach((cookieName) => {
-      removeCookie(cookieName, { path: '/' }); // Pastikan `path` sesuai dengan lokasi cookie
-    });
-    redirectTo("/")
-  }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const imageObjectUrl = URL.createObjectURL(file);
+    setImageUrl(imageObjectUrl);
+    setSelectedFile(file);      
+  };
+
+  const sendFile = async () => {
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    if(validate()){
+        try {
+            const response = await fetch(backendUrl + 'upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                setMsg('Upload Gagal!');
+                setSubMsg('Pastikan file telah sesuai dengan template dan tidak ada missing data');
+                setIsValidated(true);
+            }
+            
+            // Toast Success
+
+
+            navigate("/Rekap")
+
+        } catch (error) {
+
+        }
+    }else{
+        setIsValidated(true);
+    }
+
+}
 
   const validateAddUser = () => {
     if (dataUser.password.length < 8){
@@ -54,6 +93,12 @@ export default function Main() {
     }
 
     return true;
+  }
+
+  const clearSelectedFile = () => {
+    console.log("clearing");
+    
+    setSelectedFile(null);
   }
 
   const onSubmitUserClick = async (event) => {
@@ -87,8 +132,42 @@ export default function Main() {
     
   }
 
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragging(true);
+  };
+
+  const handleDragEnter = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDragging(false);
+  };
+
+  const handleDrop = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const file = e.dataTransfer.files[0];
+      setSelectedFile(file);
+      setDragging(false);
+
+      const imageObjectUrl = URL.createObjectURL(file);
+      setImageUrl(imageObjectUrl);
+  };
+
   const onAddUserClick = () => {
     setShowUserForm(true);
+  }
+
+  const onAddOPDClick = () => {
+    setShowOPDForm(true);
   }
 
   const onCloseAddUserClick = () => {
@@ -99,6 +178,14 @@ export default function Main() {
       password: "",
       confPass: "",
       dinas: "1",
+    })
+  }
+
+  const onCloseAddOPDClick = () => {
+    setShowOPDForm(false);
+    setDataDinas({
+      nama: "",
+      alias:"",
     })
   }
 
@@ -459,66 +546,159 @@ export default function Main() {
 
       <section name="tambah_instansi" className="tambah-instansi-disini text-gray-600 shadow-2xl body-font flex items-center justify-center bg-cover bg-opacity-10" style={{ backgroundImage: `url(${bgImage})` }}>
         <div className="mt-20 pb-24 text-center w-full items-center justify-center">
-          <div style={{ animation: "slideInFromLeft 1s ease-out" }} className="relative min-w-96 max-w-2xl bg-[#2C2C2C] mx-auto rounded-xl shadow-xl overflow-hidden p-8 space-y-8">
-            <h2 style={{ animation: "appear 2s ease-out" }} className="text-center text-4xl font-bold text-white">Tambah Dinas</h2>
-            <p style={{ animation: "appear 3s ease-out" }} className="text-center text-white">Masukan Data Dinas disini.</p>
-
-            <div className="space-y-6">
-              <div className="relative">
-                <input
-                  placeholder="Nama Dinas"
-                  className="peer h-10 w-full border-b-2 border-gray-300 text-white bg-transparent placeholder-transparent focus:outline-none"
-                  required
-                  id="nama"
-                  name="nama"
-                  type="text"
-                  value={dataDinas.nama}
-                  onChange={handleChange}
-                />
-                <label className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white peer-focus:text-xs" htmlFor="nama">
-                  Nama Dinas
-                </label>
-              </div>
-              <div className="relative">
-                <input
-                  placeholder="Alias Dinas"
-                  className="peer h-10 w-full border-b-2 border-gray-300 text-white bg-transparent placeholder-transparent focus:outline-none"
-                  required
-                  id="alias"
-                  name="alias"
-                  type="text"
-                  value={dataDinas.alias}
-                  onChange={handleChange}
-                />
-                <label className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white peer-focus:text-xs" htmlFor="alias">
-                  Alias
-                </label>
-              </div>
-
-              <button className="w-full py-2 px-4 bg-white hover:bg-gray-500 hover:text-white rounded-md shadow-lg text-black font-semibold transition duration-1000">
-                Tambah
-              </button>
-            </div>
-          </div>
 
           <h1 className={`text-white mt-8 text-2xl lg:text-4xl font-bold mb-6 ${isVisible ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>
-            Dinas/OPD
-          </h1>
+              Dinas/OPD
+            </h1>
 
-          <div className="max-w-4xl mx-auto mt-10">
-            <div className="p-2 border-b border-gray-300 grid grid-cols-3 text-white">
-              <h2 className="text-sm font-semibold">Nama</h2>
-              <h2 className="text-sm font-semibold">Alias</h2>
-              <p className="text-sm font-semibold">Alamat</p>
-            </div>
-            {allOPD.map((opd, i) => (
-              <div key={i} className="p-2 border-b border-gray-300 grid grid-cols-3 text-gray-200">
-                <h2>{opd.nama}</h2>
-                <h2>{opd.alias}</h2>
-                <p>{opd.alamat}</p>
+            <div className="max-w-4xl mx-auto mt-10">
+              <div className="p-2 border-b border-gray-300 grid grid-cols-3 text-white">
+                <h2 className="text-sm font-semibold">Nama</h2>
+                <h2 className="text-sm font-semibold">Alias</h2>
+                <p className="text-sm font-semibold">Alamat</p>
               </div>
-            ))}
+              {allOPD.map((opd, i) => (
+                <div key={i} className="p-2 border-b border-gray-300 grid grid-cols-3 text-gray-200">
+                  <h2>{opd.nama}</h2>
+                  <h2>{opd.alias}</h2>
+                  <p>{opd.alamat}</p>
+                </div>
+              ))}
+
+            <div 
+              className="bg-white hover:bg-gray-400 hover:text-white transition-all duration-300 cursor-pointer text-black font-semibold px-2 py-1 rounded-md mt-6"
+              onClick={onAddOPDClick}
+            >
+              Tambah OPD
+            </div>
+
           </div>
+
+          {
+            showOPDForm && (
+              <div style={{ animation: "slideInFromLeft 1s ease-out" }} className="relative min-w-96 max-w-2xl mt-10 bg-[#2C2C2C] mx-auto rounded-xl shadow-xl overflow-hidden p-8 space-y-8">
+
+                  <div 
+                    className="close-button cursor-pointer hover:bg-red-400 hover:scale-110 transition-all duration-500 absolute -right-3 -top-3 hover:-right-1 hover:-top-1 bg-red-500 text-white font-bold px-4 py-2 rounded-full text-xl"
+                    onClick={onCloseAddOPDClick}
+                  >
+                    X
+                  </div>
+
+                <h2 style={{ animation: "appear 2s ease-out" }} className="text-center text-4xl font-bold text-white">Tambah OPD</h2>
+                <p style={{ animation: "appear 3s ease-out" }} className="text-center text-white">Masukan Data OPD disini.</p>
+
+                
+
+                <div className="space-y-6">
+                  <div className="relative">
+                    <input
+                      placeholder="Nama Dinas"
+                      className="peer h-10 w-full border-b-2 border-gray-300 text-white bg-transparent placeholder-transparent focus:outline-none"
+                      required
+                      id="nama"
+                      name="nama"
+                      type="text"
+                      value={dataDinas.nama}
+                      onChange={handleChange}
+                    />
+                    <label className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white peer-focus:text-xs" htmlFor="nama">
+                      Nama OPD
+                    </label>
+                  </div>
+                  <div className="relative">
+                    <input
+                      placeholder="Alias Dinas"
+                      className="peer h-10 w-full border-b-2 border-gray-300 text-white bg-transparent placeholder-transparent focus:outline-none"
+                      required
+                      id="alias"
+                      name="alias"
+                      type="text"
+                      value={dataDinas.alias}
+                      onChange={handleChange}
+                    />
+                    <label className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-white peer-focus:text-xs" htmlFor="alias">
+                      Alias
+                    </label>
+                  </div>
+
+                {
+                  selectedFile ? (
+                    <>
+                      <div className="w-full flex justify-center">
+                        <div 
+                          className={`flex flex-col justify-center items-center group border-slate-300 w-48 h-48  rounded-full `}
+                          
+                        >    
+                            <img
+                              src={imageUrl}
+                              alt="Uploaded"
+                              className="w-full h-auto object-cover rounded-full"
+                              />
+                        </div>
+                        <div 
+                          className="bg-red-500 w-fit h-fit cursor-pointer hover:bg-red-400 px-3 py-1 font-semibold text-white rounded-full"
+                          onClick={() => clearSelectedFile()}
+                        >
+                          X
+                        </div>
+                      </div>
+                    </>
+                  ):(
+                    <>
+                    <div className="flex justify-center">
+                    <label 
+                      htmlFor='file-upload'
+                      className={`border-2 flex flex-col justify-center items-center group border-slate-300 ${
+                          dragging ? 'border-sky-400 bg-sky-100' : ( !selectedFile ? ' cursor-pointer' : '')
+                        } w-48 h-48  rounded-full border-dashed hover:bg-sky-100 hover:border-sky-400`}
+                      onDragOver={handleDragOver}
+                      onDragEnter={handleDragEnter}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                    >
+                      
+                      <>  
+                          <div className="for-small-phone sm:hidden">
+                              Upload File
+                          </div>
+
+                          <div className="ml-1 hidden sm:block">
+                              {
+                                  dragging ? (
+                                      <div className="animate-pulse">
+                                          Jatuhkan File
+                                      </div>
+                                  ) : (
+                                      <>
+                                          Seret Gambar OPD Ke Sini atau Pilih File dengan Klik <span className="underline">Di Sini.</span>
+                                      </>
+                                  )
+                              }
+                          </div>
+                      </>
+                      
+                    </label>
+                  </div>
+
+                  <input
+                      id="file-upload"
+                      type="file"
+                      className="hidden"
+                      onChange={handleFileChange}
+                  />
+                </>
+                  )
+                }
+
+                  <button className="w-full py-2 px-4 bg-white hover:bg-gray-500 hover:text-white rounded-md shadow-lg text-black font-semibold transition duration-1000">
+                    Tambah
+                  </button>
+                </div>
+              </div>
+            )
+          }
+          
         </div>
       </section>
     </>
