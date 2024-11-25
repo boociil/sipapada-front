@@ -6,8 +6,14 @@ function Example({ open, setOpen, img_link, nama, alias, id}) {
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
 
-  const move = () =>{
+  const moveKeg = () =>{
     navigate("/form-keg/" + id)
+  }
+  const moveDDA = () =>{
+    navigate("/dda/" + id)
+  }
+  const moveRek = () =>{
+    navigate("/Rek-Stat/" + id)
   }
 
   return (
@@ -53,7 +59,7 @@ function Example({ open, setOpen, img_link, nama, alias, id}) {
                     <button
                             type="button"
                             className="mt-3 mx-2 inline-flex w-full justify-center items-center rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-inset ring-gray-300 hover:bg-sky-400 sm:mt-0 sm:w-auto"
-                            onClick={move}
+                            onClick={moveKeg}
                         >
                         Metadata
                     </button>
@@ -61,14 +67,14 @@ function Example({ open, setOpen, img_link, nama, alias, id}) {
                     <button
                         type="button"
                         className="mt-3 mx-2 inline-flex w-full justify-center rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm  ring-inset ring-gray-300 hover:bg-sky-400 sm:mt-0 sm:w-auto"
-                        
+                        onClick={moveDDA}
                     >
                         Data Dalam Angka
                     </button>
                     <button
                         type="button"
                         className="mt-3 mx-2 inline-flex w-full justify-center rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm  ring-inset ring-gray-300 hover:bg-sky-400 sm:mt-0 sm:w-auto"
-                        
+                        onClick={moveRek}
                     >
                         Rekomendasi Statistik
                     </button>

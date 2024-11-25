@@ -71,7 +71,7 @@ export default function Main() {
 
   return (
     <>
-    <section className="text-gray-600 shadow-2xl body-font h-screen flex items-center justify-center bg-cover bg-opacity-10" style={{ backgroundImage: `url(${bgImage})` }}>
+    <section className="text-gray-600 shadow-2xl body-font h-screen flex items-center justify-center bg-cover bg-no-repeat bg-fixed bg-opacity-10" style={{ backgroundImage: `url(${bgImage})` }}>
       <div className=" mt-20 pb-24 mx-auto text-center items-center justify-center">
         <h1 className={`text-4xl lg:text-6xl font-bold text-white mb-6 ${isVisible ? 'opacity-100 transition-opacity duration-1000' : 'opacity-0'}`}>
           SIPAPADA1306

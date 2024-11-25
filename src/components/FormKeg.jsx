@@ -43,8 +43,11 @@ export default function Main() {
     tipe_pengumpulan_data:"",
     cakupan_wilayah_data:"",
     metode_pengumpulan_data:"",
+    metode_pengumpulan_data_lainnya:"",
     sarana_pengumpulan_data:"",
+    sarana_pengumpulan_data_lainnya:"",
     unit_pengumpulan_data:"",
+    unit_pengumpulan_data_lainnya:"",
     // BAB V
     rancangan_sampel:"",
     metode_pemilihan_sampel_terakir:"",
@@ -57,6 +60,7 @@ export default function Main() {
     // BAB VI
     pilot_survei: "",
     metode_pemeriksaan_kualitas_pengumpulan_data: "",
+    metode_pemeriksaan_kualitas_pengumpulan_data_lainnya: "",
     penyesuaian_non_respon: "",
     petugas_pengumpulan_data:"",
     persyaratan_pendidikan_terendah_petugas:"",
@@ -71,7 +75,9 @@ export default function Main() {
     penyahihan:"",
     metode_analisis:"",
     unit_analisis:"",
+    unit_analisis_lainnya:"",
     tingkat_penyajian_hasil_analisis:"",
+    tingkat_penyajian_hasil_analisis_lainnya:"",
     // BAB VIII
     tercetak: "",
     digital:"",
@@ -317,14 +323,7 @@ export default function Main() {
                             />
                         </div>
                     </div>
-                    <InputForm 
-                        text={"Sektor Kegiatan"} 
-                        name="sektor_kegiatan"
-                        value={formData.rekomendasi_kegiatan} 
-                        change={handleChange} 
-                        print_info
-                        info={["Ya","Tidak","gatau","ntahlah"]}
-                    />
+
 
                     {/* BAB 1 */}
                     {/* PENYELENGGARA */}
@@ -532,8 +531,13 @@ export default function Main() {
                         name="metode_pengumpulan_data"
                         value={formData.metode_pengumpulan_data} 
                         change={handleChange} 
+                        multiple={true}
+                        lainnya={true}
+                        lainnyaValue={formData.metode_pengumpulan_data_lainnya}
+                        lainnyaChange={handleChange}
+                        lainnyaName={"metode_pengumpulan_data_lainnya"}
                         print_info={true}
-                        info={["Wawancara","Mengisi Kuesioner Sendiri (swacacah)","Pengmatan (Observasi)","Pengumpulan Data Sekunder","Lainnya (Sebutkan)"]}
+                        info={["Wawancara","Mengisi Kuesioner Sendiri (swacacah)","Pengmatan (Observasi)","Pengumpulan Data Sekunder"]}
                     />
                     
                     <InputForm 
@@ -541,17 +545,27 @@ export default function Main() {
                         name="sarana_pengumpulan_data"
                         value={formData.sarana_pengumpulan_data} 
                         change={handleChange} 
+                        multiple={true}
+                        lainnya={true}
+                        lainnyaValue={formData.sarana_pengumpulan_data_lainnya}
+                        lainnyaChange={handleChange}
+                        lainnyaName={"sarana_pengumpulan_data_lainnya"}
                         print_info={true}
-                        info={["Paper-assisted Personal Interviewing (PAPI)","Computer-assisted Personal INterviewing (CAPI)", "Computer-assited Telephones Interviewing (CATI)","Computer Aided Web Interviewing (CAWI)","Mail", "Lainnya (Sebutkan)"]}
+                        info={["Paper-assisted Personal Interviewing (PAPI)","Computer-assisted Personal INterviewing (CAPI)", "Computer-assited Telephones Interviewing (CATI)","Computer Aided Web Interviewing (CAWI)","Mail"]}
                     />
 
                     <InputForm 
                         text={"4.8 Unit Pengumpulan Data"} 
                         name="unit_pengumpulan_data"
                         value={formData.unit_pengumpulan_data} 
-                        change={handleChange} 
+                        change={handleChange}
+                        multiple={true} 
+                        lainnya={true}
+                        lainnyaValue={formData.unit_pengumpulan_data_lainnya}
+                        lainnyaChange={handleChange}
+                        lainnyaName={"unit_pengumpulan_data_lainnya"}
                         print_info={true}
-                        info={["Individu","Rumah Tangga","Usaha/Perusahaan","Lainnya (sebutkan) "]}
+                        info={["Individu","Rumah Tangga","Usaha/Perusahaan"]}
                     />
 
 
@@ -645,8 +659,12 @@ export default function Main() {
                         name="metode_pemeriksaan_kualitas_pengumpulan_data"
                         value={formData.metode_pemeriksaan_kualitas_pengumpulan_data} 
                         change={handleChange} 
+                        lainnya={true}
+                        lainnyaValue={formData.metode_pemeriksaan_kualitas_pengumpulan_data_lainnya}
+                        lainnyaChange={handleChange}
+                        lainnyaName={"metode_pemeriksaan_kualitas_pengumpulan_data_lainnya"}
                         print_info={true}
-                        info={["Kunjungan Kembali (Revisit)","Supervisi","Task Force","Lainnya (Sebutkan)"]}
+                        info={["Kunjungan Kembali (Revisit)","Supervisi","Task Force"]}
                     />
                     
                     <InputForm 
@@ -761,8 +779,13 @@ export default function Main() {
                         name="unit_analisis"
                         value={formData.unit_analisis} 
                         change={handleChange} 
+                        multiple={true}
+                        lainnya={true}
+                        lainnyaValue={formData.unit_analisis_lainnya}
+                        lainnyaChange={handleChange}
+                        lainnyaName={"unit_analisis_lainnya"}
                         print_info={true}
-                        info={["Individu","Rumah Tangga","Usaha/Perusahaan","Lainnya"]}
+                        info={["Individu","Rumah Tangga","Usaha/Perusahaan"]}
                     />
 
                     <InputForm 
@@ -770,8 +793,13 @@ export default function Main() {
                         name="tingkat_penyajian_hasil_analisis"
                         value={formData.tingkat_penyajian_hasil_analisis} 
                         change={handleChange} 
+                        multiple={true}
+                        lainnya={true}
+                        lainnyaValue={formData.tingkat_penyajian_hasil_analisis_lainnya}
+                        lainnyaChange={handleChange}
+                        lainnyaName={"tingkat_penyajian_hasil_analisis_lainnya"}
                         print_info={true}
-                        info={["Nasional","Provinsi","Kabupaten/Kota","Kecamatan","Lainnya"]}
+                        info={["Nasional","Provinsi","Kabupaten/Kota","Kecamatan"]}
                     />
                     
                     <BabDiv text={"VII. DISEMINASI HASIL"} />

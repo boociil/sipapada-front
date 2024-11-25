@@ -12,11 +12,14 @@ import FormKeg from './components/FormKeg.jsx'
 import FormVar from './components/FormVar.jsx'
 import FormInd from './components/FormInd.jsx'
 import AdminPage from "./components/AdminPage.jsx"
+import ScrollToTop from './components/ScrollToTop.jsx';
+import ComingSoonPage from './components/ComingSoonPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider> 
       <BrowserRouter>
+      <ScrollToTop />
         <Routes>
           <Route index element={
             <>
@@ -60,7 +63,23 @@ createRoot(document.getElementById('root')).render(
               <FormInd />
             </>
           }></Route>
-          
+
+          <Route path="/DDA/:id" element={
+            <>
+              <Header type="fixed" />
+              <ComingSoonPage />
+            </>
+          }></Route>
+
+          <Route path="/Rek-Stat/:id" element={
+            <>
+              <Header type="fixed" />
+              <ComingSoonPage />
+            </>
+          }></Route>
+
+
+
         </Routes>
       </BrowserRouter>
     </AuthProvider>

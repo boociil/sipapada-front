@@ -55,20 +55,48 @@ export default function InputForm(props) {
                             props.info.slice(0, half).map((item, i) => (
                                 <div key={`${item}-${i}`} className="flex justify-between">
                                 <div>{item}</div>
-                                <div className="ml-2">- {i+1}</div>
+                                <div className="ml-2">- { !props.multiple ? i+1 : 2**i}</div>
                                 </div>
                             ))                      
                         }
                         </div>
                         <div className="lg:ml-20">
                         {
-                            props.info.slice(half).map((item, i) => (
-                                <div key={`${item}-${i}`} className="flex justify-between">
-                                <div>{item}</div>
-                                <div className="ml-2">- {i+1+half}</div>
-                                </div>
-                            ))
-                            
+                            props.lainnya ? (
+                                <>
+                                    {
+                                        <>
+                                            {
+
+                                                props.info.slice(half).map((item, i) => (
+                                                        <div key={`${item}-${i}`} className="flex justify-between">
+                                                        <div>{item}</div>
+                                                        <div className="ml-2">- { !props.multiple ? i+1+half : 2**(i+half)}</div>
+                                                    </div>
+                                                ))
+                                            }
+                                        <div className="flex justify-between">
+                                            <div>
+                                                Lainnya 
+                                                <input type="text" name={props.lainnyaName} id="" value={props.lainnyaValue} onChange={props.lainnyaChange} className="ml-1 rounded-md h-6 px-1"/>
+                                            </div>
+                                            <div className="ml-2 pt-1">- {!props.multiple ? props.info.length+1 : 2**props.info.length }</div>
+                                        </div>
+                                        </>
+                                    }
+                                </>
+                            ) : (
+                                <>
+                                    {
+                                        props.info.slice(half).map((item, i) => (
+                                            <div key={`${item}-${i}`} className="flex justify-between">
+                                                <div>{item}</div>
+                                                <div className="ml-2">- { !props.multiple ? i+1+half : 2**(i+half)}</div>
+                                            </div>
+                                        ))
+                                    }
+                                </>
+                            )
                         }
                         </div>
                     </div>
