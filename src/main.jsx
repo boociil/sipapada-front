@@ -45,21 +45,21 @@ createRoot(document.getElementById('root')).render(
 
           <Route path="/Form-keg/:id" element={
             <>
-              <Header txt="text-black" type="fixed" />
+              <Header txt="text-black" type="fixed" metadata={true} />
               <FormKeg />
             </>
           }></Route>
 
           <Route path="/Form-var/:id" element={
             <>
-              <Header txt="text-black" type="fixed" />
+              <Header txt="text-black" type="fixed" metadata={true}/>
               <FormVar />
             </>
           }></Route>
 
           <Route path="/Form-ind/:id" element={
             <>
-              <Header txt="text-black" type="fixed" />
+              <Header txt="text-black" type="fixed" metadata={true} />
               <FormInd />
             </>
           }></Route>

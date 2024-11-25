@@ -22,7 +22,7 @@ export default function Main() {
   const [usernameActive,setUsernameActive] = useState("");
   const [dragging, setDragging] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
-  const [ eks, setEks ] = useState(null);
+  const [ showErrorOPD, setShowErrorOPD ] = useState(null);
   const uploadedFileRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [dataDinas, setDataDinas] = useState({
@@ -57,8 +57,7 @@ export default function Main() {
     const fileExtension = fileName.split('.').pop();
 
     if(fileExtension !== "png"){
-        setMsg('Ekstensi File Tidak Sesuai!');
-        setSubMsg('Ekstensi file yang diperbolehkan hanyalah .xlsx');
+
         return false;
     } 
 
@@ -97,7 +96,8 @@ const sendFile = async () => {
       // Handle error saat melakukan request (misalnya masalah jaringan)
     }
   } else {
-    console.log("Validasi gagal");
+    setShowErrorOPD(true);
+
   }
 };  
 
@@ -115,8 +115,7 @@ const sendFile = async () => {
   }
 
   const clearSelectedFile = () => {
-    console.log("clearing");
-    
+    setShowErrorOPD(false);
     setSelectedFile(null);
   }
 
@@ -691,7 +690,7 @@ const sendFile = async () => {
                                       </div>
                                   ) : (
                                       <>
-                                          Seret Gambar OPD Ke Sini atau Pilih File dengan Klik <span className="underline">Di Sini.</span>
+                                          Seret Logo OPD Ke Sini atau Pilih File dengan Klik <span className="underline">Di Sini.</span>
                                       </>
                                   )
                               }
@@ -711,6 +710,13 @@ const sendFile = async () => {
                   )
                 }
 
+                  {
+                    showErrorOPD && (
+                      <div className="text-xs text-red-500">
+                        *ekstensi logo harus png
+                      </div>
+                    )
+                  }
                   <button 
                     className="w-full py-2 px-4 bg-white hover:bg-gray-500 hover:text-white rounded-md shadow-lg text-black font-semibold transition duration-1000"
                     onClick={sendFile}

@@ -1,9 +1,27 @@
 import React, {useState, useEffect} from "react";
 import { useCookies } from 'react-cookie';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 
 export default function Header(props) {
 
+  const location = useLocation();
+  const pathSegments = location.pathname.split("/"); 
+  const segments = pathSegments[1];
+  
+  const id = pathSegments[2];
+
+  const header_array = ["Form-keg","Form-ind","Form-var"]
+
+  const segments_num = header_array.indexOf(segments)
+
+  const isActive = (num) => {
+    if (num == segments_num){
+      return "text-gray-500"
+    }else{
+      return "text-black"
+    }
+  }
+  
   let txt_colour = "text-white";
   let header_type = "absolute";
   if (props.bg !== undefined){
@@ -59,6 +77,30 @@ export default function Header(props) {
         >
           SIPAPADA1306
         </a>
+        {
+          props.metadata && (
+            <div className="md:flex hidden">
+              <a
+                href={`/Form-keg/` + id}
+                className={`flex mx-6 text-xs md:text-lg lg:text-xl font-medium mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(0)}`}
+              >
+                Kegiatan
+              </a>
+              <a
+                href={`/Form-ind/` + id}
+                className={`flex mx-6 text-xs md:text-lg lg:text-xl font-medium mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(1)}`}
+              >
+                Indikator
+              </a>
+              <a
+                href={`/Form-var/` + id}
+                className={`flex mx-6 text-xs md:text-lg lg:text-xl font-medium mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(2)}`}
+              >
+                Variabel
+              </a>
+            </div>
+          )
+        }
         
         {
           cookies.user && (
