@@ -15,7 +15,7 @@ export default function Main() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     judul_kegiatan: "",
-    tahun_kegiatan: "",
+    tahun_kegiatan: "2022",
     met_pengumpulan_data: "",
     sektor_kegiatan: "",
     rekomendasi_kegiatan: "",
@@ -88,9 +88,9 @@ export default function Main() {
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   
-  const redirectTo = (path) => {
-    navigate(path);
-  }; 
+  const onSubmitClick = () => {
+    alert(JSON.stringify(formData))
+  }
 
   const onNextClick = () => {
     
@@ -846,12 +846,12 @@ export default function Main() {
                     </div>
 
 
-                    <div className=" flex justify-end mt-4">
+                    <div className=" flex justify-center mt-4">
                         <div 
-                            className="bg-white w-fit px-6 rounded-md my-2 cursor-pointer hover:shadow-lg transition-all duration-200"
-                            onClick={onNextClick}
+                            className="bg-white w-fit px-6 py-2 font-semibold rounded-md my-2 cursor-pointer hover:shadow-lg transition-all duration-200"
+                            onClick={onSubmitClick}
                         >
-                            Selanjutnya
+                            Submit
                         </div>
                     </div>
                 </form>

@@ -16,9 +16,9 @@ export default function Header(props) {
 
   const isActive = (num) => {
     if (num == segments_num){
-      return "text-gray-500"
+      return "text-black font-medium"
     }else{
-      return "text-black"
+      return "text-gray-500"
     }
   }
   
@@ -73,28 +73,30 @@ export default function Header(props) {
       <div className="flex flex-grow items-center justify-between p-3 md:p-1">
         <a
           href="/"
-          className={`flex text-xl md:text-2xl lg:text-8x font-medium mb-0 md:mb-0 w-full justify-center md:justify-start `}
+          className={`flex text-xl  md:text-2xl lg:text-8x font-medium mb-0 md:mb-0 w-full justify-center md:justify-start `}
         >
-          SIPAPADA1306
+          <p className="hover:scale-105 transition-all duration-300">
+            SIPAPADA1306
+          </p>
         </a>
         {
           props.metadata && (
             <div className="md:flex hidden">
               <a
                 href={`/Form-keg/` + id}
-                className={`flex mx-6 text-xs md:text-lg lg:text-xl font-medium mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(0)}`}
+                className={`flex mx-6 hover:text-black transition-all duration-300 text-xs md:text-lg lg:text-xl mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(0)}`}
               >
                 Kegiatan
               </a>
               <a
                 href={`/Form-ind/` + id}
-                className={`flex mx-6 text-xs md:text-lg lg:text-xl font-medium mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(1)}`}
+                className={`flex mx-6 hover:text-black transition-all duration-300 text-xs md:text-lg lg:text-xl mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(1)}`}
               >
                 Indikator
               </a>
               <a
                 href={`/Form-var/` + id}
-                className={`flex mx-6 text-xs md:text-lg lg:text-xl font-medium mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(2)}`}
+                className={`flex mx-6 hover:text-black transition-all duration-300 text-xs md:text-lg lg:text-xl mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(2)}`}
               >
                 Variabel
               </a>
@@ -104,7 +106,7 @@ export default function Header(props) {
         
         {
           cookies.user && (
-            <div className={` cursor-pointer text-xl font-bold hidden md:flex md:flex-grow hover:scale-105 transition-all duration-200`} onClick={onLogout}>
+            <div className={` cursor-pointer text-xl font-bold hidden md:flex md:flex-grow hover:scale-105 ml-20 transition-all duration-200`} onClick={onLogout}>
               Logout
             </div>
           )
