@@ -4,30 +4,6 @@ import React, { useEffect, useState } from "react";
 export default function InputForm(props) {
 
     const [rowAdd, setRowAdd] = useState(0);
-    const [data,setData] = useState({
-        perencanaan_awal : "",
-        perencanaan_akhir : "",
-        desain_awal:"",
-        desain_akhir:"",
-        pengumpulan_data_awal:"",
-        pengumpulan_data_akhir:"",
-        pengolahan_data_awal:"",
-        pengolahan_data_akhhir:"",
-        analisis_awal:"",
-        analisis_akhir:"",
-        diseminasi_awal:"",
-        diseminasi_akhir:"",
-        evaluasi_awal:"",
-        evaluasi_akhir:"",
-    });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setData({
-          ...data,
-          [name]: value
-        });
-    };
 
     const addRow = () => {
         setRowAdd(rowAdd+1);
@@ -45,16 +21,16 @@ export default function InputForm(props) {
                 <tr key={i}>
                     <td className="border-2 border-black">{i + 2}</td>
                     <td className="border-2 border-black">
-                        <input type="text" />
+                        <input type="text" value={props.varStat.nama[i+2] || ""} onChange={(e) => props.handleChange(e,"nama",i+2)}/>
                     </td>
                     <td className="border-2 border-black">
-                        <input type="text" />
+                        <input type="text" value={props.varStat.konsep[i+2] || ""} onChange={(e) => props.handleChange(e,"konsep",i+2)}/>
                     </td>
                     <td className="border-2 border-black">
-                        <input type="text" />
+                        <input type="text" value={props.varStat.definisi[i+2] || ""} onChange={(e) => props.handleChange(e,"definisi",i+2)}/>
                     </td>
                     <td className="border-2 border-black">
-                        <input type="text" />
+                        <input type="text" value={props.varStat.referensi_waktu[i+2] || ""} onChange={(e) => props.handleChange(e,"referensi_waktu",i+2)}/>
                     </td>
                 </tr>
             );
@@ -86,16 +62,16 @@ export default function InputForm(props) {
                         <tr>
                             <td className="border-2 border-black">1.</td>
                             <td className="border-2 border-black">
-                                <input type="text" />
+                                <input type="text" value={props.varStat.nama[0] || ""} onChange={(e) => props.handleChange(e,"nama",0)}/>
                             </td>
                             <td className="border-2 border-black">
-                                <input type="text" />
+                                <input type="text" value={props.varStat.konsep[0] || ""} onChange={(e) => props.handleChange(e,"konsep",0)}/>
                             </td>
                             <td className="border-2 border-black">
-                                <input type="text" />
+                                <input type="text" value={props.varStat.definisi[0] || ""} onChange={(e) => props.handleChange(e,"definisi",0)}/>
                             </td>
                             <td className="border-2 border-black">
-                                <input type="text" />
+                                <input type="text" value={props.varStat.referensi_waktu[0] || ""} onChange={(e) => props.handleChange(e,"referensi_waktu",0)}/>
                             </td>
                         </tr>
                         {

@@ -13,6 +13,54 @@ export default function Main() {
 
   const { id } = useParams();
   const navigate = useNavigate();
+
+
+  const [varStat, setVarStat] = useState({
+    nama : ["","",""],
+    konsep : ["","",""],
+    definisi : ["","",""],
+    referensi_waktu : ["","",""],
+  })
+
+  const handleVarStatChange = (e, type, index) => {
+    const { value } = e.target;
+    setVarStat((prev) => ({
+        ...prev,
+        [type]: prev[type].map((item, i) => (i === index ? value : item))
+    }));
+  };
+
+  const decOneVarStat = () => {
+    setWilKeg((prev) => ({
+        nama: prev.nama.slice(0, -1),
+        konsep: prev.konsep.slice(0, -1),
+        definisi: prev.definisi.slice(0, -1),
+        referensi_waktu : prev.referensi_waktu.lice(0, -1),
+    }));
+  }
+
+  const [wilKeg, setWilKeg] = useState({
+    prov: ["", "", ""], // Inisialisasi array dengan jumlah elemen awal
+    kabkot: ["", "", ""]
+});
+
+const handleWilKegChange = (e, type, index) => {
+    const { value } = e.target;
+    setWilKeg((prev) => ({
+        ...prev,
+        [type]: prev[type].map((item, i) => (i === index ? value : item))
+    }));
+};
+
+
+
+  const decOneWilKeg = () => {
+    setWilKeg((prev) => ({
+        prov: prev.prov.slice(0, -1),
+        kabkot: prev.kabkot.slice(0, -1),
+    }));
+  }
+
   const [formData, setFormData] = useState({
     judul_kegiatan: "",
     tahun_kegiatan: "2022",
@@ -82,14 +130,18 @@ export default function Main() {
     tercetak: "",
     digital:"",
     data_mikro:"",
-
-    
   });
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   
+  const isDisbled = () => {
+
+  }
+
   const onSubmitClick = () => {
     alert(JSON.stringify(formData))
+    alert(JSON.stringify(wilKeg))
+    alert(JSON.stringify(varStat))
   }
 
   const onNextClick = () => {
@@ -473,7 +525,7 @@ export default function Main() {
                     />
 
                     <div className="flex justify-center">
-                        < TableVarStat />
+                        < TableVarStat varStat={varStat} handleChange={handleVarStatChange} decOne={decOneVarStat}/>
                     </div>
 
                     <BabDiv text={"IV. DESAIN KEGIATAN"} />
@@ -523,7 +575,7 @@ export default function Main() {
                     />
 
                     <div className="flex justify-center">
-                        < TableWilayah />
+                        < TableWilayah handleChange={handleWilKegChange} decOne={decOneWilKeg} wilKeg={wilKeg}/>
                     </div>
 
                     <InputForm 

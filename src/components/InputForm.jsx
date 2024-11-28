@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 
 // props: text, name, value, change, print_info, info
 
 export default function InputForm(props) {
+
+    const [disabled, setIsDisabled] = useState(true);
 
     let half = 0
     if(props.print_info){
@@ -13,6 +15,40 @@ export default function InputForm(props) {
     if (props.font_is_small){
         font_settings = "pl-6"
     }
+
+    const handleMultipleChange = (e) => {
+        props.change(e);
+        // if (props.multiple){
+        //     if(props.value == 2**props.info.length){
+        //         setIsDisabled(false)
+        //     }else{
+        //         setIsDisabled(true)
+        //     }
+        // }else{
+        //     if(props.value == props.info.length){
+        //         setIsDisabled(false)
+        //     }else{
+        //         setIsDisabled(true)
+        //     }
+        // }
+    }
+
+    useEffect(() => {
+        if (props.info && props.info.length !== undefined) {
+            // Periksa apakah kondisi untuk menonaktifkan input sudah terpenuhi
+            
+            if (props.multiple) {
+
+                setIsDisabled(props.value != 2 ** props.info.length);
+            } else {
+                setIsDisabled(props.value != props.info.length+1);
+            }
+        }
+
+        
+    }, [props.value]);
+    
+
 
     return (
         <>
@@ -29,7 +65,7 @@ export default function InputForm(props) {
                                         name={props.name} 
                                         id={props.name}
                                         value={props.value}
-                                        onChange={props.change}
+                                        onChange={handleMultipleChange}
                                     />
                                 ) : (
                                     <textarea
@@ -37,7 +73,7 @@ export default function InputForm(props) {
                                         name={props.name}
                                         id={props.name}
                                         value={props.value}
-                                        onChange={props.change}
+                                        onChange={handleMultipleChange}
                                     />
                                 )
                             }
@@ -78,7 +114,7 @@ export default function InputForm(props) {
                                         <div className="flex justify-between">
                                             <div>
                                                 Lainnya 
-                                                <input type="text" name={props.lainnyaName} id="" value={props.lainnyaValue} onChange={props.lainnyaChange} className="ml-1 rounded-md h-6 px-1"/>
+                                                <input type="text" name={props.lainnyaName} id="" value={props.lainnyaValue} onChange={props.lainnyaChange} className={`ml-1 rounded-md transition-all duration-500 h-6 px-1 ${disabled ? 'opacity-30 scale-75 pointer-events-none' : ''}`}/>
                                             </div>
                                             <div className="ml-2 pt-1">- {!props.multiple ? props.info.length+1 : 2**props.info.length }</div>
                                         </div>

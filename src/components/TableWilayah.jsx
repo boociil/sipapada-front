@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 export default function InputForm(props) {
 
     const [rowAdd, setRowAdd] = useState(0);
+    const [data,setData] = useState({})
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -18,6 +19,7 @@ export default function InputForm(props) {
     }
 
     const decRow = () => {
+        props.decOne();
         setRowAdd(rowAdd-1);
     }
 
@@ -29,10 +31,10 @@ export default function InputForm(props) {
                 <tr key={i}>
                     <td className="border-2 border-black">{i + 2}</td>
                     <td className="border-2 border-black">
-                        <input type="text" />
+                        <input type="text" value={props.wilKeg.prov[i+1] || ""} onChange={(e) => props.handleChange(e,"prov",i+1)}/>
                     </td>
                     <td className="border-2 border-black">
-                        <input type="text" />
+                        <input type="text" value={props.wilKeg.kabkot[i+1] || ""} onChange={(e) => props.handleChange(e,"kabkot",i+1)}/>
                     </td>
                 </tr>
             );
@@ -59,10 +61,10 @@ export default function InputForm(props) {
                         <tr>
                             <td className="border-2 border-black">1.</td>
                             <td className="border-2 border-black">
-                                <input type="text" />
+                                <input type="text" value={props.wilKeg.prov[0] || ""} onChange={(e) => props.handleChange(e,"prov",0)}/>
                             </td>
                             <td className="border-2 border-black">
-                                <input type="text" />
+                                <input type="text" value={props.wilKeg.kabkot[0] || ""} onChange={(e) => props.handleChange(e,"kabkot",0)}/>
                             </td>
                         </tr>
                         {
