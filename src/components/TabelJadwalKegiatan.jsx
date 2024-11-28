@@ -3,30 +3,6 @@ import React, { useState } from "react";
 
 export default function InputForm(props) {
 
-    const [data,setData] = useState({
-        perencanaan_awal : "",
-        perencanaan_akhir : "",
-        desain_awal:"",
-        desain_akhir:"",
-        pengumpulan_data_awal:"",
-        pengumpulan_data_akhir:"",
-        pengolahan_data_awal:"",
-        pengolahan_data_akhhir:"",
-        analisis_awal:"",
-        analisis_akhir:"",
-        diseminasi_awal:"",
-        diseminasi_akhir:"",
-        evaluasi_awal:"",
-        evaluasi_akhir:"",
-    });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setData({
-          ...data,
-          [name]: value
-        });
-      };
 
     return (
         <>
@@ -61,8 +37,8 @@ export default function InputForm(props) {
                     <input 
                             type="date" 
                             name="perencanaan_awal"
-                            value={data.perencanaan_awal}
-                            onChange={handleChange}
+                            value={props.perencanaan_awal}
+                            onChange={props.handleChange}
                         />
                     </td>
                     <td className="border-2 border-black px-2">s.d</td>
@@ -70,21 +46,28 @@ export default function InputForm(props) {
                         <input 
                             type="date" 
                             name="perencanaan_akhir"
-                            value={data.perencanaan_akhir}
-                            onChange={handleChange}
+                            value={props.perencanaan_akhir}
+                            onChange={props.handleChange}
                         />
                     </td>
                 </tr>
                 <tr>
                     <td  className="border-2 border-black text-left">2. Desain</td>
                     <td className="border-2 border-black">
-                        <input type="date" />
+                        <input 
+                            type="date" 
+                            name="desain_awal"
+                            value={props.desain_awal}
+                            onChange={props.handleChange}
+                        />
                     </td>
                     <td className="border-2 border-black">s.d</td>
                     <td className="border-2 border-black">
                         <input 
                             type="date" 
-                            
+                            name="desain_akhir"
+                            value={props.desain_akhir}
+                            onChange={props.handleChange}
                         />
                     </td>
                 </tr>
@@ -95,13 +78,23 @@ export default function InputForm(props) {
                     <td className="border-2 border-black"></td>
                 </tr>
                 <tr>
-                    <td  className="border-2 border-black text-left">3. Pengumpulan Data</td>
+                    <td  className="border-2 border-black text-left">3. Pengumpulan props</td>
                     <td className="border-2 border-black">
-                        <input type="date" />
+                        <input 
+                            type="date"
+                            name="pengumpulan_awal"
+                            value={props.pengumpulan_awal}
+                            onChange={props.handleChange}
+                        />
                     </td>
                     <td className="border-2 border-black">s.d</td>
                     <td className="border-2 border-black">
-                        <input type="date" />
+                        <input 
+                            type="date"
+                            name="pengumpulan_akhir"
+                            value={props.pengumpulan_akhir}
+                            onChange={props.handleChange}
+                        />
                     </td>
                 </tr>
                 <tr>
@@ -111,13 +104,23 @@ export default function InputForm(props) {
                     <td className="border-2 border-black"></td>
                 </tr>
                 <tr>
-                    <td  className="border-2 border-black text-left">4. Pengolahan Data</td>
+                    <td  className="border-2 border-black text-left">4. Pengolahan props</td>
                     <td className="border-2 border-black">
-                        <input type="date" />
+                        <input 
+                            type="date" 
+                            name="pengolahan_awal"
+                            value={props.pengolahan_awal}
+                            onChange={props.handleChange}
+                        />
                     </td>
                     <td className="border-2 border-black">s.d</td>
                     <td className="border-2 border-black">
-                        <input type="date" />
+                        <input 
+                            type="date" 
+                            name="pengolahan_akhir"
+                            value={props.pengolahan_akhir}
+                            onChange={props.handleChange}
+                        />
                     </td>
                 </tr>
                 <tr>
@@ -129,31 +132,61 @@ export default function InputForm(props) {
                 <tr>
                     <td  className="border-2 border-black text-left">5. Analisis</td>
                     <td className="border-2 border-black">
-                        <input type="date" />
+                        <input 
+                            type="date" 
+                            name="analisis_awal"
+                            value={props.analisis_awal}
+                            onChange={props.handleChange}
+                        />
                     </td>
                     <td className="border-2 border-black">s.d</td>
                     <td className="border-2 border-black">
-                        <input type="date" />
+                        <input 
+                            type="date" 
+                            name="analisis_akhir"
+                            value={props.analisis_akhir}
+                            onChange={props.handleChange}
+                        />
                     </td>
                 </tr>
                 <tr>
                     <td  className="border-2 border-black text-left">6. Diseminasi Hasil</td>
                     <td className="border-2 border-black">
-                        <input type="date" />
+                        <input 
+                            type="date" 
+                            name="diseminasi_awal"
+                            value={props.diseminasi_awal}
+                            onChange={props.handleChange}
+                        />
                     </td>
                     <td className="border-2 border-black">s.d</td>
                     <td className="border-2 border-black">
-                        <input type="date" />
+                        <input 
+                            type="date"
+                            name="diseminasi_akhir"
+                            value={props.diseminasi_akhir}
+                            onChange={props.handleChange}
+                        />
                     </td>
                 </tr>
                 <tr>
                     <td  className="border-2 border-black text-left">7. Evaluasi</td>
                     <td className="border-2 border-black">
-                        <input type="date" />
+                        <input 
+                            type="date" 
+                            name="evaluasi_awal"
+                            value={props.evaluasi_awal}
+                            onChange={props.handleChange}
+                        />
                     </td>
                     <td className="border-2 border-black">s.d</td>
                     <td className="border-2 border-black">
-                        <input type="date" />
+                        <input 
+                            type="date" 
+                            name="evaluasi_akhir"
+                            value={props.evaluasi_akhir}
+                            onChange={props.handleChange}
+                        />
                     </td>
                 </tr>
                 </tbody>
