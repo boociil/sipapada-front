@@ -258,12 +258,11 @@ const handleWilKegChange = (e, type, index) => {
   }
 
   const onSubmitClick = async (even) => {
-    // alert(JSON.stringify(formData))
-    // alert(JSON.stringify(wilKeg))
-    // alert(JSON.stringify(varStat))
+
     await sendDataMSKeg(formData)
     .then(success => {
         console.log(success);
+        navigate("/Form-ind/6");
     })
     .catch(error => {
         console.log(error);
