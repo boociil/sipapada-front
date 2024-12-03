@@ -16,7 +16,7 @@ export default function Main() {
     
   });
 
-  const [ind, setInd] = useState({});
+  const [keg, setKeg] = useState({});
 
   const { id,master_id } = useParams();
   
@@ -31,7 +31,7 @@ export default function Main() {
 
         };
         
-        fetch(backendUrl + 'get_stat_ind/' + master_id, requestOptions)
+        fetch(backendUrl + 'get_keg/' + id, requestOptions)
         .then(response => response.json())
         .then(data => {
             if(data.status === 200){
@@ -53,8 +53,7 @@ export default function Main() {
   useEffect(() => {
     reqDataInd()
     .then(success => {
-        console.log(success.msg);
-        setInd(success.msg)
+        setKeg(success.msg);
     })
   }, [])
 
@@ -80,37 +79,49 @@ export default function Main() {
                 </div>
                 <div className="title">
                     <h1 className="text-center font-bold text-2xl">
-                        Metadata Statistik Indikator
+                        Metadata Kegiatan
                     </h1>
+                    <p className="text-center text-lg text-gray-600">
+                        {
+                            keg.length > 0 && (
+                                <>
+                                    {keg[0].Alias}
+                                </>
+                            )
+                        }
+                    </p>
                 </div>
 
-                <div className="fixed hover:p-3 border-gray-400 right-10 bottom-10 border-2 p-1 cursor-pointer transition-all duration-500 rounded-lg">
+                <div 
+                    className="fixed hover:p-3 border-gray-400 right-10 bottom-10 border-2 p-1 cursor-pointer transition-all duration-500 rounded-lg"
+                    onClick={() => navigate("/Form-Keg/" + id)}
+                >
                     Add
                 </div>
 
                 <div className="mt-12 flex bg-gray-200 p-2 rounded-t-xl text-gray-500 text-sm">
                     <div className="mr-4 w-8 text-center">No</div>
-                    <div className="grid grid-cols-4 w-full">
-                        <div>Nama Indikator</div>
-                        <div>Alias</div>
-                        <div>Ukuran</div>
-                        <div>Definisi Indikator</div>
+                    <div className="grid grid-cols-5 w-full">
+                        <div className="col-span-2 text-center">Nama Kegiatan</div>
+                        <div className="text-center">Tahun</div>
+                        <div >Kode Kegiatan</div>
+                        <div>Penyelenggara</div>
                     </div>
                 </div>
                 {
-                    ind.length > 0 ? (
+                    keg.length > 0 ? (
                         <>
                         {
-                            ind.map((item,i) => {
+                            keg.map((item,i) => {
                                 return(
                                     <>
-                                        <div key={i} className="flex p-2 text text-sm border-b-2">
+                                        <div key={i} className="flex p-2 text text-sm border-b-2 hover:bg-gray-50">
                                             <div className="mr-4 w-8 text-center">{i+1}</div>
-                                            <div className="grid grid-cols-4 w-full">
-                                                <div>{item.nama_indikator}</div>
-                                                <div>{item.alias}</div> 
-                                                <div>{item.ukuran}</div> 
-                                                <div>{item.definisi}</div>
+                                            <div className="grid grid-cols-5 w-full">
+                                                <div className="col-span-2 ">{item.nama_kegiatan}</div>
+                                                <div className="text-center">{item.tahun}</div> 
+                                                <div>{item.kode_kegiatan}</div> 
+                                                <div >{item.Alias}</div>
                                             </div>
                                         </div>
                                     </>
@@ -120,7 +131,7 @@ export default function Main() {
                         </>
                     ) : (
                         <>
-                            <div className="w-full text-center mt-36 text-gray-400">Belum ada Indikator</div>
+                            <div className="w-full text-center mt-36 text-gray-400">Belum ada Kegiatan</div>
                         </>
                     )
                 }

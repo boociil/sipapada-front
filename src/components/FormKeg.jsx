@@ -53,8 +53,6 @@ const handleWilKegChange = (e, type, index) => {
     }));
 };
 
-
-
   const decOneWilKeg = () => {
     setWilKeg((prev) => ({
         prov: prev.prov.slice(0, -1),
@@ -262,7 +260,7 @@ const handleWilKegChange = (e, type, index) => {
     await sendDataMSKeg(formData)
     .then(success => {
         console.log(success);
-        navigate("/Form-ind/6");
+        navigate("/Form-ind/" + formData.instansi + "/" + success.id);
     })
     .catch(error => {
         console.log(error);

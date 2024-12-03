@@ -16,36 +16,54 @@ export default function Main() {
     
   });
 
-  const { id } = useParams();
+  const [metVar, setMetVar] = useState({});
 
-  const onNextClick = () => {
-    navigate("/Form-ind/" + id);
+  const { id,master_id } = useParams();
+  
+
+  const reqDataInd = ( ) => {
+    return new Promise((resolve,reject) => {
+        const requestOptions = {
+            method: 'GET', // Metode HTTP
+            headers: {
+                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+            },
+
+        };
+        
+        fetch(backendUrl + 'get_stat_var/' + master_id, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === 200){
+                resolve(data);
+                
+            }else{
+                reject("gatawu");
+            }
+        });
+    })
   }
 
   const onBackClick = () => {
-    navigate("/Form-keg/" + id);
+    navigate("/Form-var/" + id);
   }
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  
-  const redirectTo = (path) => {
-    navigate(path);
-  }; 
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
+  useEffect(() => {
+    reqDataInd()
+    .then(success => {
+        console.log(success.msg);
+        setMetVar(success.msg)
+    })
+  }, [])
 
   return (
     <>
         <section className="all-body mb-80">
-            <section className="form md:mx-auto mx-4 max-w-4xl p-4 mt-24 rounded-lg shadow-lg bg-gray-300 ">
+            <section className="form md:mx-auto mx-4 max-w-4xl p-4 mt-24 rounded-lg  ">
                 <div className="keterangan flex justify-between">
-                    <div className="bps-logo text-xs mb-4 italic font-semibold flex items-center">
+                    {/* <div className="bps-logo text-xs mb-4 italic font-semibold flex items-center">
                         <img 
                             src={`${bpsLogo}`} 
                             alt="BPS" 
@@ -58,33 +76,57 @@ export default function Main() {
                     </div>
                     <div className="mr-10"> 
                         ms-var
-                    </div>
+                    </div> */}
                 </div>
                 <div className="title">
                     <h1 className="text-center font-bold text-2xl">
                         Metadata Statistik Variabel
                     </h1>
                 </div>
-                <div className="border-2 border-black grid grid-cols-4">
-                    <div>no</div>
-                    <div>Nama Variabel</div>
-                    <div>Alias</div>
-                    <div>Definisi Variabel</div>
+
+                <div className="fixed hover:p-3 border-gray-400 right-10 bottom-10 border-2 p-1 cursor-pointer transition-all duration-500 rounded-lg">
+                    Add
                 </div>
-                <div className="flex mt-4 justify-between w-full">
-                    <div 
-                        className="bg-white w-fit px-6 rounded-md my-2 cursor-pointer hover:shadow-lg transition-all duration-200"
-                        onClick={onBackClick}
-                    >
-                        Kembali
-                    </div>
-                    <div 
-                        className="bg-white w-fit px-6 rounded-md my-2 cursor-pointer hover:shadow-lg transition-all duration-200"
-                        onClick={onNextClick}
-                    >
-                        Selanjutnya
+
+                <div className="mt-12 flex bg-gray-200 p-2 rounded-t-xl text-gray-500 text-sm">
+                    <div className="mr-4 w-8 text-center">No</div>
+                    <div className="grid grid-cols-4 w-full">
+                        <div>Nama Variabel</div>
+                        <div>Alias</div>
+                        <div>Ukuran</div>
+                        <div>Definisi Variabel</div>
                     </div>
                 </div>
+                {
+                    metVar.length > 0 ? (
+                        <>
+                        {
+                            metVar.map((item,i) => {
+                                return(
+                                    <>
+                                        <div key={i} className="flex p-2 text text-sm border-b-2">
+                                            <div className="mr-4 w-8 text-center">{i+1}</div>
+                                            <div className="grid grid-cols-4 w-full">
+                                                <div>{item.nama_variabel}</div>
+                                                <div>{item.alias}</div> 
+                                                <div>{item.ukuran}</div> 
+                                                <div>{item.definisi_var}</div>
+                                            </div>
+                                        </div>
+                                    </>
+                                )
+                            })
+                        }
+                        </>
+                    ) : (
+                        <>
+                            <div className="w-full text-center mt-36 text-gray-400">Belum ada Indikator</div>
+                        </>
+                    )
+                }
+                
+
+
             </section>
         </section>
     </>

@@ -16,7 +16,7 @@ export default function Main() {
     
   });
 
-  const [ind, setInd] = useState({});
+  const [metVar, setMetVar] = useState({});
 
   const { id,master_id } = useParams();
   
@@ -31,7 +31,7 @@ export default function Main() {
 
         };
         
-        fetch(backendUrl + 'get_stat_ind/' + master_id, requestOptions)
+        fetch(backendUrl + 'get_stat_var/' + master_id, requestOptions)
         .then(response => response.json())
         .then(data => {
             if(data.status === 200){
@@ -54,7 +54,7 @@ export default function Main() {
     reqDataInd()
     .then(success => {
         console.log(success.msg);
-        setInd(success.msg)
+        setMetVar(success.msg)
     })
   }, [])
 
@@ -80,7 +80,7 @@ export default function Main() {
                 </div>
                 <div className="title">
                     <h1 className="text-center font-bold text-2xl">
-                        Metadata Statistik Indikator
+                        Metadata Statistik Variabel
                     </h1>
                 </div>
 
@@ -91,26 +91,26 @@ export default function Main() {
                 <div className="mt-12 flex bg-gray-200 p-2 rounded-t-xl text-gray-500 text-sm">
                     <div className="mr-4 w-8 text-center">No</div>
                     <div className="grid grid-cols-4 w-full">
-                        <div>Nama Indikator</div>
+                        <div>Nama Variabel</div>
                         <div>Alias</div>
                         <div>Ukuran</div>
-                        <div>Definisi Indikator</div>
+                        <div>Definisi Variabel</div>
                     </div>
                 </div>
                 {
-                    ind.length > 0 ? (
+                    metVar.length > 0 ? (
                         <>
                         {
-                            ind.map((item,i) => {
+                            metVar.map((item,i) => {
                                 return(
                                     <>
                                         <div key={i} className="flex p-2 text text-sm border-b-2">
                                             <div className="mr-4 w-8 text-center">{i+1}</div>
                                             <div className="grid grid-cols-4 w-full">
-                                                <div>{item.nama_indikator}</div>
+                                                <div>{item.nama_variabel}</div>
                                                 <div>{item.alias}</div> 
                                                 <div>{item.ukuran}</div> 
-                                                <div>{item.definisi}</div>
+                                                <div>{item.definisi_var}</div>
                                             </div>
                                         </div>
                                     </>
@@ -120,7 +120,7 @@ export default function Main() {
                         </>
                     ) : (
                         <>
-                            <div className="w-full text-center mt-36 text-gray-400">Belum ada Indikator</div>
+                            <div className="w-full text-center mt-36 text-gray-400">Belum ada Variabel</div>
                         </>
                     )
                 }

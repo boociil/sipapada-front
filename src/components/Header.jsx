@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate, useLocation } from "react-router-dom";
+import { GlobalStateContext } from './GlobalStateProvider';
 
 export default function Header(props) {
   const location = useLocation();
   const pathSegments = location.pathname.split("/");
   const segments = pathSegments[1];
   const id = pathSegments[2];
+
+  const { globalId } = useContext(GlobalStateContext);
 
   const header_array = ["Form-keg", "Form-ind", "Form-var"];
   const segments_num = header_array.indexOf(segments);

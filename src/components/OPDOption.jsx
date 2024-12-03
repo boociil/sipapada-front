@@ -7,7 +7,7 @@ function Example({ open, setOpen, img_link, nama, alias, id}) {
   const navigate = useNavigate();
 
   const moveKeg = () =>{
-    navigate("/Form-keg/" + id)
+    navigate("/keg/" + id)
   }
   const moveDDA = () =>{
     navigate("/dda/" + id)
