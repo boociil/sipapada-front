@@ -1,69 +1,91 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useState } from "react";
-import { useNavigate,useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import bpsLogo from '../assets/bps.png';
-import InputForm from './InputForm';
-import BabDiv from "./BabDiv";
-import TableJadwalKegiatan from "./TabelJadwalKegiatan";
-import TableVarStat from './TableVarStat'
-import TableWilayah from './TableWilayah'
-import RencanaRilisProduk from './RencanaRilisProduk'
+import LongInput from "./LongInput";
+import { GlobalStateContext } from './GlobalStateProvider';
 
 export default function Main() {
 
+  const { id } = useParams();
   const navigate = useNavigate();
+  const { globalId, setGlobalId } = useContext(GlobalStateContext);
+  const [selectedOption, setSelectedOption] = useState('');
   const [formData, setFormData] = useState({
-    
+    nama: "",
+    konsep:"",
+    definisi:"",
+    interpretasi:"",
+    rumus:"",
+    ukuran:"",
+    klasifikasi_penyajian:"",
+    ind_komposit:"",
+    komp_publikasi:"",
+    komp_nama:"",
+    kegiatan_penghasil:"",
+    kode_keg:"",
+    nama_var_pembangunan:"",
+    level_estimasi:"",
+    diakses_umum:"",
   });
 
-  const [ind, setInd] = useState({});
-
-  const { id,master_id } = useParams();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   
-
-  const reqDataInd = ( ) => {
+  const sendDataMSInd = (data) => {
     return new Promise((resolve,reject) => {
         const requestOptions = {
-            method: 'GET', // Metode HTTP
+            method: 'POST', // Metode HTTP
             headers: {
                 'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
             },
-
+            body: JSON.stringify ({ 
+                
+             }) 
         };
         
-        fetch(backendUrl + 'get_stat_ind/' + master_id, requestOptions)
+        fetch(backendUrl + 'input_ms_keg', requestOptions)
         .then(response => response.json())
         .then(data => {
-            if(data.status === 200){
+            if(data.status === 201){
                 resolve(data);
-                
             }else{
-                reject("gatawu");
+                reject("Error FE");
             }
         });
     })
   }
 
-  const onBackClick = () => {
-    navigate("/Form-var/" + id);
+  const onSubmitClick = async (even) => {
+
+    await sendDataMSInd(formData)
+    .then(success => {
+        // console.log(success);
+        setGlobalId(success.id);
+        navigate("/ind/" + formData.instansi + "/" + success.id);
+    })
+    .catch(error => {
+        console.log(error);
+    })
   }
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
-  useEffect(() => {
-    reqDataInd()
-    .then(success => {
-        console.log(success.msg);
-        setInd(success.msg)
-    })
-  }, [])
+  const handleRadioChange = (event) => {
+    setSelectedOption(Number(event.target.value));
+  };
 
   return (
     <>
         <section className="all-body mb-80">
-            <section className="form md:mx-auto mx-4 max-w-4xl p-4 mt-24 rounded-lg  ">
+            <section className="form md:mx-auto mx-4 max-w-4xl p-4 mt-24 rounded-lg shadow-lg bg-gray-300 ">
                 <div className="keterangan flex justify-between">
-                    {/* <div className="bps-logo text-xs mb-4 italic font-semibold flex items-center">
+                    <div className="bps-logo text-xs mb-4 italic font-semibold flex items-center">
                         <img 
                             src={`${bpsLogo}`} 
                             alt="BPS" 
@@ -75,58 +97,124 @@ export default function Main() {
                         </div>
                     </div>
                     <div className="mr-10"> 
-                        ms-var
-                    </div> */}
+                        ms-ind
+                    </div>
                 </div>
                 <div className="title">
                     <h1 className="text-center font-bold text-2xl">
-                        Metadata Statistik Indikator
+                        Metadata Statistik Variabel
                     </h1>
                 </div>
+                <form action="" className="mt-9">
+                    <LongInput
+                        var={`nama`}
+                        nama={`Nama Indikator`}
+                        value={formData.nama}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`konsep`}
+                        nama={`Konsep`}
+                        value={formData.konsep}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`definisi`}
+                        nama={`Definisi`}
+                        value={formData.definisi}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`interpretasi`}
+                        nama={`Interpretasi`}
+                        value={formData.interpretasi}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`rumus`}
+                        nama={`Rumus`}
+                        value={formData.rumus}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`ukuran`}
+                        nama={`Ukuran`}
+                        value={formData.ukuran}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`klasifikasi_penyajian`}
+                        nama={`Klasifikasi Penyajian`}
+                        value={formData.klasifikasi_penyajian}
+                        onChange={handleChange}
+                    />
 
-                <div className="fixed hover:p-3 border-gray-400 right-10 bottom-10 border-2 p-1 cursor-pointer transition-all duration-500 rounded-lg">
-                    Add
-                </div>
-
-                <div className="mt-12 flex bg-gray-200 p-2 rounded-t-xl text-gray-500 text-sm">
-                    <div className="mr-4 w-8 text-center">No</div>
-                    <div className="grid grid-cols-4 w-full">
-                        <div>Nama Indikator</div>
-                        <div>Alias</div>
-                        <div>Ukuran</div>
-                        <div>Definisi Indikator</div>
+                    <div className="ind_komposit mb-2  pb-2">
+                        <label htmlFor="konsep" className="px-1 ">Indikator Komposit</label>
+                        <label>
+                            <input
+                            type="radio"
+                            value={1}
+                            checked={selectedOption === 1}  // Memeriksa apakah radio button ini dipilih
+                            onChange={handleRadioChange}  // Menangani perubahan
+                            />
+                            Ya
+                        </label>
+                        
+                        <label>
+                            <input
+                            type="radio"
+                            value={0}
+                            checked={selectedOption === 0}  // Memeriksa apakah radio button ini dipilih
+                            onChange={handleRadioChange}  // Menangani perubahan
+                            />
+                            Tidak
+                        </label>
                     </div>
-                </div>
-                {
-                    ind.length > 0 ? (
-                        <>
-                        {
-                            ind.map((item,i) => {
-                                return(
-                                    <>
-                                        <div key={i} className="flex p-2 text text-sm border-b-2">
-                                            <div className="mr-4 w-8 text-center">{i+1}</div>
-                                            <div className="grid grid-cols-4 w-full">
-                                                <div>{item.nama_indikator}</div>
-                                                <div>{item.alias}</div> 
-                                                <div>{item.ukuran}</div> 
-                                                <div>{item.definisi}</div>
-                                            </div>
-                                        </div>
-                                    </>
-                                )
-                            })
-                        }
-                        </>
-                    ) : (
-                        <>
-                            <div className="w-full text-center mt-36 text-gray-400">Belum ada Indikator</div>
-                        </>
-                    )
-                }
-                
 
-
+                    <LongInput
+                        var={`komp_publikasi`}
+                        nama={`Publikasi Ketersediaan`}
+                        value={formData.komp_publikasi}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`komp_nama`}
+                        nama={`Nama`}
+                        value={formData.komp_nama}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`kegiatan_penghasil`}
+                        nama={`Kegiatan Penghasil`}
+                        value={formData.kegiatan_penghasil}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`kode_keg`}
+                        nama={`Kode Kegiatan`}
+                        value={formData.kode_keg}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`nama_var_pembangunan`}
+                        nama={`Nama`}
+                        value={formData.nama_var_pembangunan}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`level_estimasi`}
+                        nama={`Level Estimasi`}
+                        value={formData.level_estimasi}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`diakses_umum`}
+                        nama={`Apakah Kolom dapat diakses Umum?`}
+                        value={formData.diakses_umum}
+                        onChange={handleChange}
+                    />
+                </form>
             </section>
         </section>
     </>

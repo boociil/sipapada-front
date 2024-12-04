@@ -1,20 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useState } from "react";
 import { useNavigate,useParams } from 'react-router-dom';
-import bpsLogo from '../assets/bps.png';
-import InputForm from './InputForm';
-import BabDiv from "./BabDiv";
-import TableJadwalKegiatan from "./TabelJadwalKegiatan";
-import TableVarStat from './TableVarStat'
-import TableWilayah from './TableWilayah'
-import RencanaRilisProduk from './RencanaRilisProduk'
+import { GlobalStateContext } from './GlobalStateProvider';
 
 export default function Main() {
 
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    
-  });
+  const { globalId, setGlobalId } = useContext(GlobalStateContext);
 
   const [ind, setInd] = useState({});
 
@@ -44,11 +36,13 @@ export default function Main() {
     })
   }
 
-  const onBackClick = () => {
-    navigate("/Form-var/" + id);
+  const onAddClick = () => {
+    navigate("/Form-ind/" + id + "/" + globalId)
   }
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+
 
   useEffect(() => {
     reqDataInd()
@@ -84,7 +78,10 @@ export default function Main() {
                     </h1>
                 </div>
 
-                <div className="fixed hover:p-3 border-gray-400 right-10 bottom-10 border-2 p-1 cursor-pointer transition-all duration-500 rounded-lg">
+                <div 
+                    className="fixed hover:p-3 border-gray-400 right-10 bottom-10 border-2 p-1 cursor-pointer transition-all duration-500 rounded-lg"
+                    onClick={onAddClick}
+                >
                     Add
                 </div>
 
@@ -120,7 +117,12 @@ export default function Main() {
                         </>
                     ) : (
                         <>
-                            <div className="w-full text-center mt-36 text-gray-400">Belum ada Indikator</div>
+                            <div 
+                                className="w-full text-center mt-36 text-gray-400"
+                                
+                            >
+                                Belum ada Indikator
+                            </div>
                         </>
                     )
                 }

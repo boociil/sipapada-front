@@ -1,69 +1,88 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useState } from "react";
-import { useNavigate,useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import bpsLogo from '../assets/bps.png';
 import InputForm from './InputForm';
 import BabDiv from "./BabDiv";
-import TableJadwalKegiatan from "./TabelJadwalKegiatan";
-import TableVarStat from './TableVarStat'
-import TableWilayah from './TableWilayah'
-import RencanaRilisProduk from './RencanaRilisProduk'
+import { GlobalStateContext } from './GlobalStateProvider';
 
 export default function Main() {
 
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [allOPD, setAllOPD] = useState([]);
+  const [dinasOptions, setDinasOptions] = useState([]); 
+  const { globalId, setGlobalId } = useContext(GlobalStateContext);
+
   const [formData, setFormData] = useState({
-    
+    nama: "",
+    alias:"",
+    konsep:"",
+    definisi:"",
+    referensi_pemilihan:"",
+    referensi_waktu:"",
+    tipe_data:"",
+    klasifikasi_isian:"",
+    aturan_validasi:"",
+    kalimat_pertanyaan:"",
+    akses_umum:"",
   });
 
-  const [metVar, setMetVar] = useState({});
-
-  const { id,master_id } = useParams();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   
-
-  const reqDataInd = ( ) => {
+  const sendDataMSVar = (data) => {
     return new Promise((resolve,reject) => {
         const requestOptions = {
-            method: 'GET', // Metode HTTP
+            method: 'POST', // Metode HTTP
             headers: {
                 'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
             },
-
+            body: JSON.stringify ({ 
+                
+             }) 
         };
         
-        fetch(backendUrl + 'get_stat_var/' + master_id, requestOptions)
+        fetch(backendUrl + 'input_ms_keg', requestOptions)
         .then(response => response.json())
         .then(data => {
-            if(data.status === 200){
+            if(data.status === 201){
                 resolve(data);
-                
             }else{
-                reject("gatawu");
+                reject("Error FE");
             }
         });
     })
   }
 
-  const onBackClick = () => {
-    navigate("/Form-var/" + id);
+  const onSubmitClick = async (even) => {
+
+    // await sendDataMSVar(formData)
+    // .then(success => {
+    //     // console.log(success);
+    //     setGlobalId(success.id);
+    //     navigate("/ind/" + formData.instansi + "/" + success.id);
+    // })
+    // .catch(error => {
+    //     console.log(error);
+    // })
+    alert(JSON.stringify(formData));
+    
   }
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
-  useEffect(() => {
-    reqDataInd()
-    .then(success => {
-        console.log(success.msg);
-        setMetVar(success.msg)
-    })
-  }, [])
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
   return (
     <>
         <section className="all-body mb-80">
-            <section className="form md:mx-auto mx-4 max-w-4xl p-4 mt-24 rounded-lg  ">
+            <section className="form md:mx-auto mx-4 max-w-4xl p-4 mt-24 rounded-lg shadow-lg bg-gray-300 ">
                 <div className="keterangan flex justify-between">
-                    {/* <div className="bps-logo text-xs mb-4 italic font-semibold flex items-center">
+                    <div className="bps-logo text-xs mb-4 italic font-semibold flex items-center">
                         <img 
                             src={`${bpsLogo}`} 
                             alt="BPS" 
@@ -76,57 +95,156 @@ export default function Main() {
                     </div>
                     <div className="mr-10"> 
                         ms-var
-                    </div> */}
+                    </div>
                 </div>
                 <div className="title">
                     <h1 className="text-center font-bold text-2xl">
                         Metadata Statistik Variabel
                     </h1>
                 </div>
-
-                <div className="fixed hover:p-3 border-gray-400 right-10 bottom-10 border-2 p-1 cursor-pointer transition-all duration-500 rounded-lg">
-                    Add
-                </div>
-
-                <div className="mt-12 flex bg-gray-200 p-2 rounded-t-xl text-gray-500 text-sm">
-                    <div className="mr-4 w-8 text-center">No</div>
-                    <div className="grid grid-cols-4 w-full">
-                        <div>Nama Variabel</div>
-                        <div>Alias</div>
-                        <div>Ukuran</div>
-                        <div>Definisi Variabel</div>
+                <form action="" className="mt-9">
+                    <div className="judul_kegiatan mb-2  pb-2">
+                        <label htmlFor="nama" className="px-1 ">Nama Variabel </label>
+                        <input 
+                            type="text" 
+                            className="w-full px-2 h-8 rounded-md mt-1" 
+                            placeholder="Nama" 
+                            name="nama" 
+                            id="nama" 
+                            value={formData.nama}
+                            onChange={handleChange}
+                        />
                     </div>
-                </div>
-                {
-                    metVar.length > 0 ? (
-                        <>
-                        {
-                            metVar.map((item,i) => {
-                                return(
-                                    <>
-                                        <div key={i} className="flex p-2 text text-sm border-b-2">
-                                            <div className="mr-4 w-8 text-center">{i+1}</div>
-                                            <div className="grid grid-cols-4 w-full">
-                                                <div>{item.nama_variabel}</div>
-                                                <div>{item.alias}</div> 
-                                                <div>{item.ukuran}</div> 
-                                                <div>{item.definisi_var}</div>
-                                            </div>
-                                        </div>
-                                    </>
-                                )
-                            })
-                        }
-                        </>
-                    ) : (
-                        <>
-                            <div className="w-full text-center mt-36 text-gray-400">Belum ada Indikator</div>
-                        </>
-                    )
-                }
-                
+                    <div className="judul_kegiatan mb-2  pb-2">
+                        <label htmlFor="alias" className="px-1 ">Alias Variabel </label>
+                        <input 
+                            type="text" 
+                            className="w-full px-2 h-8 rounded-md mt-1" 
+                            placeholder="Alias" 
+                            name="alias" 
+                            id="alias" 
+                            value={formData.alias}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="judul_kegiatan mb-2  pb-2">
+                        <label htmlFor="konsep" className="px-1 ">Konsep</label>
+                        <input 
+                            type="text" 
+                            className="w-full px-2 h-8 rounded-md mt-1" 
+                            placeholder="Konsep" 
+                            name="konsep" 
+                            id="konsep" 
+                            value={formData.konsep}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="judul_kegiatan mb-2  pb-2">
+                        <label htmlFor="definisi" className="px-1 ">Definisi</label>
+                        <input 
+                            type="text" 
+                            className="w-full px-2 h-8 rounded-md mt-1" 
+                            placeholder="Definisi" 
+                            name="definisi" 
+                            id="definisi" 
+                            value={formData.definisi}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="judul_kegiatan mb-2  pb-2">
+                        <label htmlFor="judul_kegiatan" className="px-1 ">Referensi Pemilihan</label>
+                        <input 
+                            type="text" 
+                            className="w-full px-2 h-8 rounded-md mt-1" 
+                            placeholder="Referensi Pemilihan" 
+                            name="referensi_pemilihan" 
+                            id="referensi_pemilihan" 
+                            value={formData.referensi_pemilihan}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="judul_kegiatan mb-2  pb-2">
+                        <label htmlFor="referensi_waktu" className="px-1 ">Referensi Waktu</label>
+                        <input 
+                            type="text" 
+                            className="w-full px-2 h-8 rounded-md mt-1" 
+                            placeholder="Referensi Waktu" 
+                            name="referensi_waktu" 
+                            id="referensi_waktu" 
+                            value={formData.referensi_waktu}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="judul_kegiatan mb-2  pb-2">
+                        <label htmlFor="tipe_data" className="px-1 ">Tipe Data</label>
+                        <input 
+                            type="text" 
+                            className="w-full px-2 h-8 rounded-md mt-1" 
+                            placeholder="Tipe Data" 
+                            name="tipe_data" 
+                            id="tipe_data" 
+                            value={formData.tipe_data}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className=" mb-2  pb-2">
+                        <label htmlFor="klasifikasi_isian" className="px-1 ">Klasifikasi</label>
+                        <input 
+                            type="text" 
+                            className="w-full px-2 h-8 rounded-md mt-1" 
+                            placeholder="Klasifikasi" 
+                            name="klasifikasi_isian" 
+                            id="klasifikasi_isian" 
+                            value={formData.klasifikasi_isian}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="judul_kegiatan mb-2  pb-2">
+                        <label htmlFor="aturan_validasi" className="px-1 ">Aturan Validasi</label>
+                        <input 
+                            type="text" 
+                            className="w-full px-2 h-8 rounded-md mt-1" 
+                            placeholder="Aturan Validasi" 
+                            name="aturan_validasi" 
+                            id="aliaaturan_validasi" 
+                            value={formData.aturan_validasi}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="judul_kegiatan mb-2  pb-2">
+                        <label htmlFor="kalimat_pertanyaan" className="px-1 ">Kalimat Pertanyaan</label>
+                        <input 
+                            type="text" 
+                            className="w-full px-2 h-8 rounded-md mt-1" 
+                            placeholder="Kalimat Pertanyaan" 
+                            name="kalimat_pertanyaan" 
+                            id="kalimat_pertanyaan" 
+                            value={formData.kalimat_pertanyaan}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="judul_kegiatan mb-2  pb-2">
+                        <label htmlFor="akses_umum" className="px-1 ">Akses Umum</label>
+                        <input 
+                            type="text" 
+                            className="w-full px-2 h-8 rounded-md mt-1" 
+                            placeholder="Akses Umum" 
+                            name="akses_umum" 
+                            id="aliaakses_umum" 
+                            value={formData.akses_umum}
+                            onChange={handleChange}
+                        />
+                    </div>
 
-
+                    <div className=" flex justify-center mt-4">
+                        <div 
+                            className="bg-white w-fit px-6 py-2 font-semibold rounded-md my-2 cursor-pointer hover:shadow-lg transition-all duration-200"
+                            onClick={onSubmitClick}
+                        >
+                            Submit
+                        </div>
+                    </div>
+                </form>
             </section>
         </section>
     </>

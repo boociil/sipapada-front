@@ -50,20 +50,20 @@ createRoot(document.getElementById('root')).render(
 
             <Route path="/keg/:id" element={
               <>
-                <Header txt="text-black" type="fixed"/>
+                <Header txt="text-black" type="fixed" metadata={true}/>
                 <KegPage />
               </>
             }></Route>
             <Route path="/Form-keg/:id" element={
               <>
-                <Header txt="text-black" type="fixed"  />
+                <Header txt="text-black" type="fixed" metadata={true} />
                 <FormKeg />
               </>
             }></Route>
 
             <Route path="/var/:id/:master_id" element={
               <>
-                <Header txt="text-black" type="fixed" />
+                <Header txt="text-black" type="fixed" metadata={true}/>
                 <VarPage />
               </>
             }></Route>
@@ -76,7 +76,7 @@ createRoot(document.getElementById('root')).render(
 
             <Route path="/ind/:id/:master_id" element={
               <>
-                <Header txt="text-black" type="fixed"/>
+                <Header txt="text-black" type="fixed" metadata={true}/>
                 <IndPage />
               </>
             }></Route>

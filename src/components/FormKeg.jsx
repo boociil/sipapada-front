@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import bpsLogo from '../assets/bps.png';
@@ -8,6 +8,7 @@ import TableJadwalKegiatan from "./TabelJadwalKegiatan";
 import TableVarStat from './TableVarStat'
 import TableWilayah from './TableWilayah'
 import RencanaRilisProduk from './RencanaRilisProduk'
+import { GlobalStateContext } from './GlobalStateProvider';
 
 export default function Main() {
 
@@ -15,6 +16,7 @@ export default function Main() {
   const navigate = useNavigate();
   const [allOPD, setAllOPD] = useState([]);
   const [dinasOptions, setDinasOptions] = useState([]); 
+  const { globalId, setGlobalId } = useContext(GlobalStateContext);
 
   const [varStat, setVarStat] = useState({
     nama : ["","","","","","","","",""],
@@ -69,7 +71,7 @@ const handleWilKegChange = (e, type, index) => {
     rekomendasi_kegiatan: "",
     id_rekomendasi: "",
 
-    instansi: "1",
+    instansi: id,
 
     alamat: "",
     telepon: "",
@@ -259,8 +261,9 @@ const handleWilKegChange = (e, type, index) => {
 
     await sendDataMSKeg(formData)
     .then(success => {
-        console.log(success);
-        navigate("/Form-ind/" + formData.instansi + "/" + success.id);
+        // console.log(success);
+        setGlobalId(success.id);
+        navigate("/ind/" + formData.instansi + "/" + success.id);
     })
     .catch(error => {
         console.log(error);
@@ -295,8 +298,12 @@ const handleWilKegChange = (e, type, index) => {
   }, []);
 
   useEffect(() => {
+
+    // const res = allOPD.find(item => item.id === parseInt(id));
+
+    
       if (allOPD.length > 0) {
-        const options = allOPD.map((opd) => ({
+        const options = allOPD.filter(item => item.id === parseInt(id)).map((opd) => ({
           value: opd.id,
           label: opd.alias,
         }));
@@ -557,6 +564,7 @@ const handleWilKegChange = (e, type, index) => {
                             >
                                 
                                 {dinasOptions.map((option) => (
+                                    
                                     <option key={option.value} value={option.value}>
                                         {option.label}
                                     </option>

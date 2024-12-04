@@ -12,14 +12,35 @@ import RencanaRilisProduk from './RencanaRilisProduk'
 export default function Main() {
 
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    
-  });
+
+  const [opd, setOPD] = useState();
 
   const [keg, setKeg] = useState({});
 
-  const { id,master_id } = useParams();
+  const { id } = useParams();
   
+
+  const reqOPDInfo = () => {
+    return new Promise((resolve,reject) => {
+        const requestOptions = {
+            method: 'GET', // Metode HTTP
+            headers: {
+                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+            },
+
+        };
+        
+        fetch(backendUrl + 'get_info_opd/' + id, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === 200){
+                resolve(data);
+            }else{
+                reject("gatawu");
+            }
+        });
+    })
+  }
 
   const reqDataInd = ( ) => {
     return new Promise((resolve,reject) => {
@@ -55,6 +76,10 @@ export default function Main() {
     .then(success => {
         setKeg(success.msg);
     })
+    reqOPDInfo()
+    .then(success => {
+        setOPD(success.msg);
+    })
   }, [])
 
   return (
@@ -83,9 +108,9 @@ export default function Main() {
                     </h1>
                     <p className="text-center text-lg text-gray-600">
                         {
-                            keg.length > 0 && (
+                            opd && (
                                 <>
-                                    {keg[0].Alias}
+                                    {opd[0].Alias}
                                 </>
                             )
                         }

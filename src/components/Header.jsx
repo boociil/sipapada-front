@@ -9,9 +9,9 @@ export default function Header(props) {
   const segments = pathSegments[1];
   const id = pathSegments[2];
 
-  const { globalId } = useContext(GlobalStateContext);
+  const { globalId, setGlobalId } = useContext(GlobalStateContext);
 
-  const header_array = ["Form-keg", "Form-ind", "Form-var"];
+  const header_array = ["Form-keg", "ind", "var"];
   const segments_num = header_array.indexOf(segments);
 
   const isActive = (num) => {
@@ -84,10 +84,10 @@ export default function Header(props) {
                   0
                 )}`}
               >
-                Kegiatan
+                Kegiatan 
               </a>
               <a
-                href={`/Form-ind/` + id}
+                href={`/ind/` + id + `/${globalId}`}
                 className={`flex mx-6 hover:text-black transition-all duration-300 text-xs md:text-lg lg:text-xl mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(
                   1
                 )}`}
@@ -95,7 +95,7 @@ export default function Header(props) {
                 Indikator
               </a>
               <a
-                href={`/Form-var/` + id}
+                href={`/var/` + id + `/${globalId}`}
                 className={`flex mx-6 hover:text-black transition-all duration-300 text-xs md:text-lg lg:text-xl mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(
                   2
                 )}`}
