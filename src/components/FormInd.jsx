@@ -55,17 +55,32 @@ export default function Main() {
     })
   }
 
-  const onSubmitClick = async (even) => {
+  const onYesNoClick = (a) => {
+    setFormData({
+        ...formData,
+        ["ind_komposit"]: a
+      });
+  }
 
-    await sendDataMSInd(formData)
-    .then(success => {
-        // console.log(success);
-        setGlobalId(success.id);
-        navigate("/ind/" + formData.instansi + "/" + success.id);
-    })
-    .catch(error => {
-        console.log(error);
-    })
+  const onAksesUmumClick = (a) => {
+    setFormData({
+        ...formData,
+        ["diakses_umum"]: a
+      });
+  }
+
+  const onSubmitClick = async (even) => {
+    // await sendDataMSInd(formData)
+    // .then(success => {
+    //     // console.log(success);
+    //     setGlobalId(success.id);
+    //     navigate("/ind/" + formData.instansi + "/" + success.id);
+    // })
+    // .catch(error => {
+    //     console.log(error);
+    // })
+
+    alert(JSON.stringify(formData))
   }
 
   const handleChange = (e) => {
@@ -150,70 +165,116 @@ export default function Main() {
                     />
 
                     <div className="ind_komposit mb-2  pb-2">
-                        <label htmlFor="konsep" className="px-1 ">Indikator Komposit</label>
-                        <label>
-                            <input
-                            type="radio"
-                            value={1}
-                            checked={selectedOption === 1}  // Memeriksa apakah radio button ini dipilih
-                            onChange={handleRadioChange}  // Menangani perubahan
-                            />
-                            Ya
-                        </label>
+                        <label htmlFor="konsep" className="px-1 ">Apakah merupakan Indikator Komposit?</label>
+
+                        <div className="flex mt-2">
+                            <div 
+                                className={`w-fit px-4 transition-all cursor-pointer duration-300 rounded-md hover:scale-100 ${formData.ind_komposit === 1 ? 'bg-blue-500 text-white border-2 border-blue-500' : 'bg-gray-300 border-2 border-gray-400'}`}
+                                onClick={() => onYesNoClick(1)}
+                            >
+                                Ya
+                            </div>
+                            <div 
+                                className={`w-fit ml-4 px-4 transition-all cursor-pointer duration-300 rounded-md hover:scale-100 ${formData.ind_komposit === 2 ? 'bg-blue-500 text-white border-2 border-blue-500 ' : 'bg-gray-300 border-2 border-gray-400'}`}
+                                onClick={() => onYesNoClick(2)}
+                            >
+                                Tidak
+                            </div>
+                        </div>
                         
-                        <label>
-                            <input
-                            type="radio"
-                            value={0}
-                            checked={selectedOption === 0}  // Memeriksa apakah radio button ini dipilih
-                            onChange={handleRadioChange}  // Menangani perubahan
-                            />
-                            Tidak
-                        </label>
                     </div>
 
-                    <LongInput
-                        var={`komp_publikasi`}
-                        nama={`Publikasi Ketersediaan`}
-                        value={formData.komp_publikasi}
-                        onChange={handleChange}
-                    />
-                    <LongInput
-                        var={`komp_nama`}
-                        nama={`Nama`}
-                        value={formData.komp_nama}
-                        onChange={handleChange}
-                    />
-                    <LongInput
-                        var={`kegiatan_penghasil`}
-                        nama={`Kegiatan Penghasil`}
-                        value={formData.kegiatan_penghasil}
-                        onChange={handleChange}
-                    />
-                    <LongInput
-                        var={`kode_keg`}
-                        nama={`Kode Kegiatan`}
-                        value={formData.kode_keg}
-                        onChange={handleChange}
-                    />
-                    <LongInput
-                        var={`nama_var_pembangunan`}
-                        nama={`Nama`}
-                        value={formData.nama_var_pembangunan}
-                        onChange={handleChange}
-                    />
+                    {
+                        formData.ind_komposit === "" ? (
+                            <>
+                                <div className="bg-gray-200 text-gray-500 h-24 text-center p-2 rounded-lg flex items-center justify-center">
+                                    Pilih Indikator Komposit
+                                </div>
+
+                            </>
+                        ) : (
+                            <>
+                                {
+                                    formData.ind_komposit === 1 ? (
+                                        <>
+                                            <div className="bg-gray-200  p-2 rounded-lg items-center">
+                                                <LongInput
+                                                    var={`komp_publikasi`}
+                                                    nama={`Publikasi Ketersediaan`}
+                                                    value={formData.komp_publikasi}
+                                                    onChange={handleChange}
+                                                />
+                                                <LongInput
+                                                    var={`komp_nama`}
+                                                    nama={`Nama`}
+                                                    value={formData.komp_nama}
+                                                    onChange={handleChange}
+                                                />
+
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="bg-gray-200  p-2 rounded-lg items-center">
+                                                <LongInput
+                                                    var={`kegiatan_penghasil`}
+                                                    nama={`Kegiatan Penghasil`}
+                                                    value={formData.kegiatan_penghasil}
+                                                    onChange={handleChange}
+                                                />
+                                                <LongInput
+                                                    var={`kode_keg`}
+                                                    nama={`Kode Kegiatan`}
+                                                    value={formData.kode_keg}
+                                                    onChange={handleChange}
+                                                />
+                                                <LongInput
+                                                    var={`nama_var_pembangunan`}
+                                                    nama={`Nama`}
+                                                    value={formData.nama_var_pembangunan}
+                                                    onChange={handleChange}
+                                                />
+
+                                            </div>
+                                        </>
+                                    )
+                                }
+                            </>
+                        )
+                    }
+                    
+                    
                     <LongInput
                         var={`level_estimasi`}
                         nama={`Level Estimasi`}
                         value={formData.level_estimasi}
                         onChange={handleChange}
                     />
-                    <LongInput
-                        var={`diakses_umum`}
-                        nama={`Apakah Kolom dapat diakses Umum?`}
-                        value={formData.diakses_umum}
-                        onChange={handleChange}
-                    />
+
+                    <label htmlFor="konsep" className="px-1 ">Apakah Kolom dapat diakses Umum?</label>
+                    <div className="flex mt-2">
+                        <div 
+                            className={`w-fit px-4 transition-all cursor-pointer duration-300 rounded-md hover:scale-100 ${formData.diakses_umum === 1 ? 'bg-blue-500 text-white border-2 border-blue-500' : 'bg-gray-300 border-2 border-gray-400'}`}
+                            onClick={() => onAksesUmumClick(1)}
+                        >
+                            Ya
+                        </div>
+                        <div 
+                            className={`w-fit ml-4 px-4 transition-all cursor-pointer duration-300 rounded-md hover:scale-100 ${formData.diakses_umum === 2 ? 'bg-blue-500 text-white border-2 border-blue-500 ' : 'bg-gray-300 border-2 border-gray-400'}`}
+                            onClick={() => onAksesUmumClick(2)}
+                        >
+                            Tidak
+                        </div>
+                    </div>
+
+                    <div className=" flex justify-center mt-4">
+                        <div 
+                            className="bg-white w-fit px-6 py-2 font-semibold rounded-md my-2 cursor-pointer hover:shadow-lg transition-all duration-200"
+                            onClick={onSubmitClick}
+                        >
+                            Submit
+                        </div>
+                    </div>
                 </form>
             </section>
         </section>

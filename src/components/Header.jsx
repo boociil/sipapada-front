@@ -11,7 +11,7 @@ export default function Header(props) {
 
   const { globalId, setGlobalId } = useContext(GlobalStateContext);
 
-  const header_array = ["Form-keg", "ind", "var"];
+  const header_array = ["keg", "ind", "var"];
   const segments_num = header_array.indexOf(segments);
 
   const isActive = (num) => {
@@ -79,20 +79,12 @@ export default function Header(props) {
           {props.metadata && (
             <div className="md:flex hidden">
               <a
-                href={`/Form-keg/` + id}
+                href={`/keg/` + id}
                 className={`flex mx-6 hover:text-black transition-all duration-300 text-xs md:text-lg lg:text-xl mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(
                   0
                 )}`}
               >
                 Kegiatan 
-              </a>
-              <a
-                href={`/ind/` + id + `/${globalId}`}
-                className={`flex mx-6 hover:text-black transition-all duration-300 text-xs md:text-lg lg:text-xl mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(
-                  1
-                )}`}
-              >
-                Indikator
               </a>
               <a
                 href={`/var/` + id + `/${globalId}`}
@@ -102,6 +94,15 @@ export default function Header(props) {
               >
                 Variabel
               </a>
+              <a
+                href={`/ind/` + id + `/${globalId}`}
+                className={`flex mx-6 hover:text-black transition-all duration-300 text-xs md:text-lg lg:text-xl mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(
+                  1
+                )}`}
+              >
+                Indikator
+              </a>
+              
             </div>
           )}
           {cookies.user && (

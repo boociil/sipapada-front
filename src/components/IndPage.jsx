@@ -27,6 +27,9 @@ export default function Main() {
         .then(response => response.json())
         .then(data => {
             if(data.status === 200){
+
+                console.log(data);
+                
                 resolve(data);
                 
             }else{
@@ -47,7 +50,6 @@ export default function Main() {
   useEffect(() => {
     reqDataInd()
     .then(success => {
-        console.log(success.msg);
         setInd(success.msg)
     })
   }, [])

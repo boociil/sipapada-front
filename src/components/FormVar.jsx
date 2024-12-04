@@ -38,11 +38,22 @@ export default function Main() {
                 'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
             },
             body: JSON.stringify ({ 
-                
+                master_id : 1, 
+                nama: data.nama, 
+                alias: data.alias, 
+                konsep: data.konsep, 
+                definisi: data.definisi, 
+                referensi_pemilihan: data.referensi_pemilihan, 
+                referensi_waktu: data.referensi_waktu, 
+                tipe_data: data.tipe_data, 
+                klasifikasi_isian: data.klasifikasi_isian,
+                aturan_validasi:data.aturan_validasi,
+                kalimat_pertanyaan: data.kalimat_pertanyaan, 
+                akses_umum: data.akses_umum,
              }) 
         };
         
-        fetch(backendUrl + 'input_ms_keg', requestOptions)
+        fetch(backendUrl + 'input_ms_var', requestOptions)
         .then(response => response.json())
         .then(data => {
             if(data.status === 201){
@@ -56,16 +67,15 @@ export default function Main() {
 
   const onSubmitClick = async (even) => {
 
-    // await sendDataMSVar(formData)
-    // .then(success => {
-    //     // console.log(success);
-    //     setGlobalId(success.id);
-    //     navigate("/ind/" + formData.instansi + "/" + success.id);
-    // })
-    // .catch(error => {
-    //     console.log(error);
-    // })
     alert(JSON.stringify(formData));
+    await sendDataMSVar(formData)
+    .then(success => {
+        console.log(success);
+        navigate("/var/" + formData.instansi + "/" + success.id);
+    })
+    .catch(error => {
+        console.log(error);
+    })
     
   }
 
