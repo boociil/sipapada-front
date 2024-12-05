@@ -7,7 +7,7 @@ import { GlobalStateContext } from './GlobalStateProvider';
 
 export default function Main() {
 
-  const { id } = useParams();
+  const { id, master_id } = useParams();
   const navigate = useNavigate();
   const { globalId, setGlobalId } = useContext(GlobalStateContext);
   const [selectedOption, setSelectedOption] = useState('');
@@ -18,6 +18,7 @@ export default function Main() {
     interpretasi:"",
     rumus:"",
     ukuran:"",
+    satuan:"",
     klasifikasi_penyajian:"",
     ind_komposit:"",
     komp_publikasi:"",
@@ -39,11 +40,27 @@ export default function Main() {
                 'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
             },
             body: JSON.stringify ({ 
-                
+                master_id : master_id,
+                nama : data.nama,
+                konsep : data.konsep,
+                definisi : data.definisi,
+                interpretasi : data.interpretasi,
+                rumus : data.rumus,
+                ukuran : data.ukuran,
+                satuan : data.satuan,
+                klasifikasi_penyajian : data.klasifikasi_penyajian ,
+                ind_komposit : data.ind_komposit,
+                komp_publikasi : data.komp_publikasi,
+                komp_nama : data.komp_nama,
+                kegiatan_penghasil : data.kegiatan_penghasil,
+                kode_keg : data.kode_keg,
+                nama_var_pembangunan : data.nama_var_pembangunan,
+                level_estimasi : data.level_estimasi,
+                diakses_umum : data.diakses_umum,
              }) 
         };
         
-        fetch(backendUrl + 'input_ms_keg', requestOptions)
+        fetch(backendUrl + 'input_ms_ind', requestOptions)
         .then(response => response.json())
         .then(data => {
             if(data.status === 201){
@@ -56,10 +73,22 @@ export default function Main() {
   }
 
   const onYesNoClick = (a) => {
-    setFormData({
-        ...formData,
-        ["ind_komposit"]: a
-      });
+    if(a == 1){
+        setFormData({
+            ...formData,
+            ind_komposit: a,
+            kegiatan_penghasil: "",
+            kode_keg: "",
+            nama_var_pembangunan: ""
+          });
+    }else{
+        setFormData({
+            ...formData,
+            ind_komposit: a,
+            komp_pubikasi: "",
+            komp_nama: ""
+          });
+    }
   }
 
   const onAksesUmumClick = (a) => {
@@ -70,17 +99,17 @@ export default function Main() {
   }
 
   const onSubmitClick = async (even) => {
-    // await sendDataMSInd(formData)
-    // .then(success => {
-    //     // console.log(success);
-    //     setGlobalId(success.id);
-    //     navigate("/ind/" + formData.instansi + "/" + success.id);
-    // })
-    // .catch(error => {
-    //     console.log(error);
-    // })
+    await sendDataMSInd(formData)
+    .then(success => {
+        // console.log(success);
+        setGlobalId(success.id);
+        navigate("/ind/" + id + "/" + success.id);
+    })
+    .catch(error => {
+        console.log(error);
+    })
 
-    alert(JSON.stringify(formData))
+    // alert(JSON.stringify(formData))
   }
 
   const handleChange = (e) => {
@@ -91,9 +120,6 @@ export default function Main() {
     });
   };
 
-  const handleRadioChange = (event) => {
-    setSelectedOption(Number(event.target.value));
-  };
 
   return (
     <>
@@ -155,6 +181,12 @@ export default function Main() {
                         var={`ukuran`}
                         nama={`Ukuran`}
                         value={formData.ukuran}
+                        onChange={handleChange}
+                    />
+                    <LongInput
+                        var={`satuan`}
+                        nama={`Satuan`}
+                        value={formData.Satuan}
                         onChange={handleChange}
                     />
                     <LongInput

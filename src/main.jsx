@@ -40,7 +40,7 @@ createRoot(document.getElementById('root')).render(
               </>
             }></Route>
             <Route element={<RoutesAdmin />}>
-              <Route path="/Admin/" element={
+              <Route path="/Admin" element={
                 <>
                   <Header type="fixed"/>
                   <AdminPage />

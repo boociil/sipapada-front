@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useCookies } from "react-cookie";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { GlobalStateContext } from './GlobalStateProvider';
 
 export default function Header(props) {
@@ -8,6 +8,8 @@ export default function Header(props) {
   const pathSegments = location.pathname.split("/");
   const segments = pathSegments[1];
   const id = pathSegments[2];
+
+   const { theId, master_id } = useParams();
 
   const { globalId, setGlobalId } = useContext(GlobalStateContext);
 
@@ -87,7 +89,7 @@ export default function Header(props) {
                 Kegiatan 
               </a>
               <a
-                href={`/var/` + id + `/${globalId}`}
+                href={`/var/` + id + `/${master_id}`}
                 className={`flex mx-6 hover:text-black transition-all duration-300 text-xs md:text-lg lg:text-xl mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(
                   2
                 )}`}
@@ -95,7 +97,7 @@ export default function Header(props) {
                 Variabel
               </a>
               <a
-                href={`/ind/` + id + `/${globalId}`}
+                href={`/ind/` + id + `/${master_id}`}
                 className={`flex mx-6 hover:text-black transition-all duration-300 text-xs md:text-lg lg:text-xl mb-0 md:mb-0 w-full justify-center md:justify-start ${isActive(
                   1
                 )}`}

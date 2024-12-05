@@ -8,7 +8,7 @@ import { GlobalStateContext } from './GlobalStateProvider';
 
 export default function Main() {
 
-  const { id } = useParams();
+  const { id,master_id } = useParams();
   const navigate = useNavigate();
   const [allOPD, setAllOPD] = useState([]);
   const [dinasOptions, setDinasOptions] = useState([]); 
@@ -70,8 +70,8 @@ export default function Main() {
     alert(JSON.stringify(formData));
     await sendDataMSVar(formData)
     .then(success => {
-        console.log(success);
-        navigate("/var/" + formData.instansi + "/" + success.id);
+        // console.log(success);
+        navigate("/var/" + id + "/" + success.id);
     })
     .catch(error => {
         console.log(error);
