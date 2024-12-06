@@ -67,7 +67,6 @@ export default function Main() {
 
   const onSubmitClick = async (even) => {
 
-    alert(JSON.stringify(formData));
     await sendDataMSVar(formData)
     .then(success => {
         // console.log(success);

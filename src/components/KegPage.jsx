@@ -2,21 +2,17 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate,useParams } from 'react-router-dom';
 import bpsLogo from '../assets/bps.png';
-import InputForm from './InputForm';
-import BabDiv from "./BabDiv";
-import TableJadwalKegiatan from "./TabelJadwalKegiatan";
-import TableVarStat from './TableVarStat'
-import TableWilayah from './TableWilayah'
-import RencanaRilisProduk from './RencanaRilisProduk'
+import deleteIcon from '../assets/delete.png';
+import ArrowIcon from '../assets/Arrow.png';
+import ConfirmCard from './ConfirmCard';
 
 export default function Main() {
 
   const navigate = useNavigate();
-
+  const [showConfirmCard,setShowConfirmCard] = useState(false);
+  const [UETrigger, setUETrigger] = useState(0);
   const [opd, setOPD] = useState();
-
   const [keg, setKeg] = useState({});
-
   const { id } = useParams();
   
 
@@ -37,6 +33,28 @@ export default function Main() {
                 resolve(data);
             }else{
                 reject("gatawu");
+            }
+        });
+    })
+  }
+  const reqDelKeg = () => {
+    return new Promise((resolve,reject) => {
+        const requestOptions = {
+            method: 'GET', // Metode HTTP
+            headers: {
+                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+            },
+
+        };
+        
+        fetch(backendUrl + 'del_keg/' + id, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === 200){
+                resolve(data);
+                
+            }else{
+                reject("");
             }
         });
     })
@@ -65,8 +83,19 @@ export default function Main() {
     })
   }
 
-  const onBackClick = () => {
-    navigate("/Form-var/" + id);
+  const onConfirm = () => {
+    reqDelKeg()
+    .then(success => {
+        setShowConfirmCard(false);
+        setUETrigger(UETrigger+1);
+    })
+    .catch(err => {
+
+    })
+  }
+
+  const onKegClick = (master_id) => {
+    navigate("/var/" + id + "/" + master_id)
   }
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -80,10 +109,18 @@ export default function Main() {
     .then(success => {
         setOPD(success.msg);
     })
-  }, [])
+  }, [UETrigger])
 
   return (
     <>
+        <ConfirmCard
+                    open={showConfirmCard} 
+                    setOpen={setShowConfirmCard} 
+                    msg={"Alert!"}
+                    subMsg={"Hapus kegiatan?"}
+                    isConfirm={true}
+                    onConfirm={onConfirm}
+                />
         <section className="all-body mb-80">
             <section className="form md:mx-auto mx-4 max-w-4xl p-4 mt-24 rounded-lg  ">
                 <div className="keterangan flex justify-between">
@@ -126,11 +163,12 @@ export default function Main() {
 
                 <div className="mt-12 flex bg-gray-200 p-2 rounded-t-xl text-gray-500 text-sm">
                     <div className="mr-4 w-8 text-center">No</div>
-                    <div className="grid grid-cols-5 w-full">
+                    <div className="grid grid-cols-6 w-full">
                         <div className="col-span-2 text-center">Nama Kegiatan</div>
                         <div className="text-center">Tahun</div>
                         <div >Kode Kegiatan</div>
                         <div>Penyelenggara</div>
+
                     </div>
                 </div>
                 {
@@ -140,14 +178,23 @@ export default function Main() {
                             keg.map((item,i) => {
                                 return(
                                     <>
-                                        <div key={i} className="flex p-2 text text-sm border-b-2 hover:bg-gray-50">
+                                        <div key={i} className="flex p-2 text text-sm cursor-pointer border-b-2" >
                                             <div className="mr-4 w-8 text-center">{i+1}</div>
-                                            <div className="grid grid-cols-5 w-full">
+                                            <div className="grid grid-cols-6 w-full">
                                                 <div className="col-span-2 ">{item.nama_kegiatan}</div>
                                                 <div className="text-center">{item.tahun}</div> 
                                                 <div>{item.kode_kegiatan}</div> 
                                                 <div >{item.Alias}</div>
+                                                <div className="flex justify-center">
+                                                    <div className={`text-white bottom-0 w-6 h-6 cursor-pointer hover:scale-110 transition-all duration-300 rounded-md`} onClick={() => setShowConfirmCard(true)}>
+                                                        <img src={`${deleteIcon}`} alt="" />
+                                                    </div>
+                                                    <div className={`text-white ml-4 rounded-full bg-gray-300 p-1 bottom-0 w-6 h-6 cursor-pointer hover:bg-gray-200 hover:scale-110 transition-all duration-300 `} onClick={() => onKegClick(item.id)}>
+                                                        <img src={`${ArrowIcon}`} alt="" />
+                                                    </div>
+                                                </div>
                                             </div>
+                                            
                                         </div>
                                     </>
                                 )

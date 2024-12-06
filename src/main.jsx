@@ -50,7 +50,7 @@ createRoot(document.getElementById('root')).render(
 
             <Route path="/keg/:id" element={
               <>
-                <Header txt="text-black" type="fixed" metadata={true}/>
+                <Header txt="text-black" type="fixed"/>
                 <KegPage />
               </>
             }></Route>
@@ -69,7 +69,7 @@ createRoot(document.getElementById('root')).render(
             }></Route>
             <Route path="/Form-var/:id/:master_id" element={
               <>
-                <Header txt="text-black" type="fixed" />
+                <Header txt="text-black" type="fixed" metadata={true} />
                 <FormVar />
               </>
             }></Route>
@@ -82,7 +82,7 @@ createRoot(document.getElementById('root')).render(
             }></Route>
             <Route path="/Form-ind/:id/:master_id" element={
               <>
-                <Header txt="text-black" type="fixed"  />
+                <Header txt="text-black" type="fixed"  metadata={true}/>
                 <FormInd />
               </>
             }></Route>
@@ -100,9 +100,6 @@ createRoot(document.getElementById('root')).render(
                 <ComingSoonPage />
               </>
             }></Route>
-
-
-
           </Routes>
         </BrowserRouter>
       </AuthProvider>

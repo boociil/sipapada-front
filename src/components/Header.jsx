@@ -9,7 +9,7 @@ export default function Header(props) {
   const segments = pathSegments[1];
   const id = pathSegments[2];
 
-   const { theId, master_id } = useParams();
+  const { theId, master_id } = useParams();
 
   const { globalId, setGlobalId } = useContext(GlobalStateContext);
 
